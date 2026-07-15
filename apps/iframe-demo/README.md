@@ -17,13 +17,13 @@ and a `postMessage` listener. `package.json` is untouched Vite scaffold.
 - Gameplay events are posted to the parent page as envelopes of the shape
   `{ source: "cogniplay", v: 1, type, payload }`:
 
-| `type` | `payload` |
-| --- | --- |
-| `ready` | `{ embed, puzzleType }` |
-| `started` | `{}` |
+| `type`     | `payload`                       |
+| ---------- | ------------------------------- |
+| `ready`    | `{ embed, puzzleType }`         |
+| `started`  | `{}`                            |
 | `progress` | `{ placed, total }` (throttled) |
-| `solved` | `{ elapsedMs }` |
-| `error` | `{ kind, message }` |
+| `solved`   | `{ elapsedMs }`                 |
+| `error`    | `{ kind, message }`             |
 
 Filter on `event.data?.source === "cogniplay"` and ignore everything else.
 
