@@ -11,7 +11,7 @@ and a `postMessage` listener. `package.json` is untouched Vite scaffold.
 ## How it works
 
 - The iframe points at the hosted embed page:
-  `https://staging.cognipuzzle-embed.com/play.html?embed=<outlet>`.
+  `https://cognipuzzle-embed.com/play.html?embed=<outlet>`.
 - The host page owns the iframe's size. Puzzles adapt to whatever box they
   are given; there is deliberately no auto-resize/height protocol.
 - Gameplay events are posted to the parent page as envelopes of the shape

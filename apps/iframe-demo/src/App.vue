@@ -30,7 +30,7 @@ onUnmounted(() => window.removeEventListener('message', onMessage))
       <code>postMessage</code> envelopes.
     </p>
     <iframe
-      src="https://staging.cognipuzzle-embed.com/play.html?embed=telex"
+      src="https://cognipuzzle-embed.com/play.html?embed=telex"
       title="Cognipuzzle daily puzzle"
     ></iframe>
     <section>
