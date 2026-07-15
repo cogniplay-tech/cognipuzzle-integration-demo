@@ -90,9 +90,12 @@ main {
   padding: 1rem;
   font-family: system-ui, sans-serif;
 }
+/* A definite height, not min-height: the element measures its own box to lay
+   out, and min-height leaves that measurement content-driven — it renders a
+   collapsed layout inside the padded box. */
 cogniplay-puzzle {
   display: block;
-  min-height: 360px;
+  height: 360px;
 }
 .fallback {
   padding: 2rem;
