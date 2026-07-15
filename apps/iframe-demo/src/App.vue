@@ -44,7 +44,7 @@ onUnmounted(() => window.removeEventListener('message', onMessage))
 
 <style scoped>
 main {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
   font-family: system-ui, sans-serif;
