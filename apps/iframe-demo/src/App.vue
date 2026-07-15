@@ -22,16 +22,10 @@ onUnmounted(() => window.removeEventListener('message', onMessage))
 
 <template>
   <main>
-    <h1>Cognipuzzle — iframe embed</h1>
-    <p>
-      The puzzle below is a plain <code>&lt;iframe&gt;</code> pointing at the
-      hosted embed page. The host page owns the box size (there is no
-      auto-resize protocol); gameplay events arrive as
-      <code>postMessage</code> envelopes.
-    </p>
+    <h1>CogniPuzzle — iframe embed</h1>
     <iframe
       src="https://cognipuzzle-embed.com/play.html?embed=telex"
-      title="Cognipuzzle daily puzzle"
+      title="CogniPuzzle daily puzzle"
     ></iframe>
     <section>
       <h2>Event log</h2>

@@ -1,6 +1,6 @@
 # CogniPuzzle integration demo
 
-Three Vue 3 apps, one per way of integrating Cognipuzzle puzzles.
+Three Vue 3 apps, one per way of integrating CogniPuzzle puzzles.
 
 | App | Pattern | Dev port |
 | --- | --- | --- |

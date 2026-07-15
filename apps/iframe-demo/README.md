@@ -1,6 +1,6 @@
 # iframe-demo
 
-Embeds the Cognipuzzle daily puzzle with a plain `<iframe>` — no Cogniplay
+Embeds the CogniPuzzle daily puzzle with a plain `<iframe>` — no Cogniplay
 code dependency at all.
 
 ## Integration footprint
