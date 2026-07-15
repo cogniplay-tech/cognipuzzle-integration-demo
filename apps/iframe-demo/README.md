@@ -1,5 +1,32 @@
-# Vue 3 + TypeScript + Vite
+# iframe-demo
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Embeds the Cognipuzzle daily puzzle with a plain `<iframe>` — no Cogniplay
+code dependency at all.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Integration footprint
+
+The only Cogniplay-aware file is [`src/App.vue`](src/App.vue): the iframe tag
+and a `postMessage` listener. `package.json` is untouched Vite scaffold.
+
+## How it works
+
+- The iframe points at the hosted embed page:
+  `https://staging.cognipuzzle-embed.com/play.html?embed=<outlet>`.
+- The host page owns the iframe's size. Puzzles adapt to whatever box they
+  are given; there is deliberately no auto-resize/height protocol.
+- Gameplay events are posted to the parent page as envelopes of the shape
+  `{ source: "cogniplay", v: 1, type, payload }`:
+
+| `type` | `payload` |
+| --- | --- |
+| `ready` | `{ embed, puzzleType }` |
+| `started` | `{}` |
+| `progress` | `{ placed, total }` (throttled) |
+| `solved` | `{ elapsedMs }` |
+| `error` | `{ kind, message }` |
+
+Filter on `event.data?.source === "cogniplay"` and ignore everything else.
+
+## Run
+
+    pnpm dev   # http://localhost:3880
