@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
+    "@cogniplay/puzzle": "0.2.0",
     "vue": "^3.5.39"
   },
   "devDependencies": {

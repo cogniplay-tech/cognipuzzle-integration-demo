@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import './style.css'
+import { defineCogniplayPuzzle } from '@cogniplay/puzzle'
 import App from './App.vue'
 
+defineCogniplayPuzzle()
 createApp(App).mount('#app')

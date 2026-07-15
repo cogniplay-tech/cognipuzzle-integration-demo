@@ -1,5 +1,38 @@
-# Vue 3 + TypeScript + Vite
+# npm-demo
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Installs `@cogniplay/puzzle` from the private registry — full TypeScript
+types, customer-controlled versioning.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Registry setup
+
+The workspace-root [`.npmrc`](../../.npmrc) routes the `@cogniplay` scope to
+the Cloudsmith registry. Authentication comes from your user `~/.npmrc`
+(read-only entitlement token) — no token is committed here.
+
+## Integration footprint
+
+Cogniplay-aware files:
+
+- [`package.json`](package.json) — `@cogniplay/puzzle` pinned exactly.
+- [`src/main.ts`](src/main.ts) — `defineCogniplayPuzzle()` once at startup.
+- [`vite.config.ts`](vite.config.ts) — custom-element hint for Vue's compiler.
+- [`public/sample-data.js`](public/sample-data.js) — host-supplied demo data.
+- [`src/App.vue`](src/App.vue) — typed `Puzzle` ref, events, both data
+  sources.
+
+## How it works
+
+- Two data sources are demonstrated: host-supplied data (the reliable path)
+  and a live fetch from the content API, translated with
+  `wirePuzzleToDomain()` (the API serves a `WirePuzzle`). API failures are
+  handled gracefully — live content changes daily.
+- Events, fallback slot, sizing: identical element contract to the bundle
+  pattern; see the package README (`node_modules/@cogniplay/puzzle/README.md`),
+  which is the authoritative integration guide.
+- `pnpm typecheck` (`vue-tsc --noEmit`) passing against the imported types is
+  part of the point: the package's bundled types are self-contained.
+
+## Run
+
+    pnpm dev         # http://localhost:3882
+    pnpm typecheck
