@@ -1,0 +1,9 @@
+{
+  "name": "cognipuzzle-integration-demo",
+  "private": true,
+  "scripts": {
+    "dev:iframe": "pnpm --filter iframe-demo dev",
+    "dev:bundle": "pnpm --filter bundle-demo dev",
+    "dev:npm": "pnpm --filter npm-demo dev"
+  }
+}
