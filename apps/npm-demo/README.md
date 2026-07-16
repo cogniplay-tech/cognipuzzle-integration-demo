@@ -22,7 +22,8 @@ Installs `@cogniplay/puzzle` from the private registry — full TypeScript types
 ## Facts
 
 - Two data sources: host-supplied (`sample-data.js`) and a live fetch translated with `wirePuzzleToDomain()` (the API serves a `WirePuzzle`).
-- Events and fallback slot: identical element contract to the bundle pattern.
+- Events are DOM `CustomEvent`s: `ready`, `started`, `piece-picked-up` / `piece-placed` / `piece-returned` / `piece-rotated`, `solved`, `error`. Listeners use the typed `addEventListener` overload from `CogniplayPuzzleEventMap`, so `event.detail` is typed with no casts. Attach them **before** setting `.puzzle` or the load's `ready` is missed.
+- A solved board is final (ignores input); the **Reset** button calls `el.reset()` to return it to the start and re-fire `ready`. Bad input emits `error` and shows the `slot="fallback"` content.
 - Give the element a **definite** `height` (`360px`); `min-height` collapses the board.
 - `pnpm typecheck` (`vue-tsc --noEmit`) passes against the bundled types — they are self-contained.
 - The package README (`node_modules/@cogniplay/puzzle/README.md`) is the authoritative integration guide.
