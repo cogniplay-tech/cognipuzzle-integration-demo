@@ -166,7 +166,6 @@ onBeforeUnmount(() => {
     14px/1.5 system-ui,
     sans-serif;
   color: #27272a;
-  background: #fff;
 }
 h2 {
   margin: 0 0 0.75rem;
