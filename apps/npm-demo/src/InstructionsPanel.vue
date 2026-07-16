@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// Demo chrome, not part of the Cogniplay integration — the element renders no
-// instructions. Mirrors the hosted embed's panel (English, quatro-mino).
-// Icon paths: Lucide (ISC).
-
 const GOAL =
   'Fill every open cell on the board with your pieces — no gaps, no overlaps.'
 const WIN = 'Every piece is placed and every open cell is covered.'
