@@ -4,7 +4,19 @@ import { onMounted, onUnmounted, ref } from 'vue'
 interface CogniplayEnvelope {
   source: 'cogniplay'
   v: 1
-  type: 'ready' | 'started' | 'progress' | 'solved' | 'error'
+  embed: string
+  type:
+    | 'ready'
+    | 'started'
+    | 'piece-picked-up'
+    | 'piece-placed'
+    | 'piece-returned'
+    | 'piece-rotated'
+    | 'solved'
+    | 'error'
+    | 'tutorial-complete'
+    | 'tutorial-exit'
+    | 'load-error'
   payload: Record<string, unknown>
 }
 
