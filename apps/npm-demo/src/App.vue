@@ -5,6 +5,7 @@ import {
   type Puzzle,
   type WirePuzzle,
 } from '@cogniplay/puzzle'
+import InstructionsPanel from './InstructionsPanel.vue'
 
 declare global {
   interface Window {
@@ -48,16 +49,19 @@ async function loadToday() {
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
       typed.
     </p>
-    <cogniplay-puzzle
-      :puzzle="puzzle"
-      @change="log('change', $event)"
-      @solve="log('solve', $event)"
-      @error="log('error', $event)"
-    >
-      <div slot="fallback" class="fallback">
-        The puzzle could not be loaded. Please try again later.
-      </div>
-    </cogniplay-puzzle>
+    <div class="stage">
+      <cogniplay-puzzle
+        :puzzle="puzzle"
+        @change="log('change', $event)"
+        @solve="log('solve', $event)"
+        @error="log('error', $event)"
+      >
+        <div slot="fallback" class="fallback">
+          The puzzle could not be loaded. Please try again later.
+        </div>
+      </cogniplay-puzzle>
+      <InstructionsPanel />
+    </div>
     <p>
       <button @click="feedSample">Sample puzzle (local data)</button>
       <button @click="loadToday">Today's puzzle (live API)</button>
@@ -82,12 +86,18 @@ main {
   padding: 1rem;
   font-family: system-ui, sans-serif;
 }
-/* A definite height, not min-height: the element measures its own box to lay
-   out, and min-height leaves that measurement content-driven — it renders a
-   collapsed layout inside the padded box. */
+/* The element measures its own box to lay out, so it needs a definite height.
+   A min-height alone collapses the board. */
+.stage {
+  display: flex;
+  height: 360px;
+  border: 1px solid #e4e4e7;
+}
 cogniplay-puzzle {
   display: block;
-  height: 360px;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
 }
 .fallback {
   padding: 2rem;
