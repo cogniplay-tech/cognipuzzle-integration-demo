@@ -1,14 +1,7 @@
 <script setup lang="ts">
-// Demo chrome — NOT part of the Cogniplay integration.
-//
-// The hosted iframe embed ships a "How to play" panel with the puzzle. The
-// element itself renders no instructions, so the bundle and npm patterns get
-// the bare board and the host page builds its own chrome. This panel is a
-// hand-written copy of the hosted one, so the three demos look alike and the
-// comparison is about integration rather than styling.
-//
-// Content mirrors the hosted embed's polyomino instructions (English,
-// quatro-mino). Icon path data is Lucide (ISC).
+// Demo chrome, not part of the Cogniplay integration — the element renders no
+// instructions. Mirrors the hosted embed's panel (English, quatro-mino).
+// Icon paths: Lucide (ISC).
 
 const GOAL =
   'Fill every open cell on the board with your pieces — no gaps, no overlaps.'

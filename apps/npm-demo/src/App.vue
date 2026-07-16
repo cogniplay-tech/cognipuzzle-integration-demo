@@ -86,9 +86,8 @@ main {
   padding: 1rem;
   font-family: system-ui, sans-serif;
 }
-/* The stage owns the height; the element fills it. It must resolve to a
-   definite height — the element measures its own box to lay out, and a
-   min-height alone leaves that content-driven, collapsing the board. */
+/* The element measures its own box to lay out, so it needs a definite height.
+   A min-height alone collapses the board. */
 .stage {
   display: flex;
   height: 360px;
