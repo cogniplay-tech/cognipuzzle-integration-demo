@@ -1,58 +1,32 @@
 # bundle-demo
 
-Loads the self-contained Cognipuzzle bundle from the CDN with one
-`<script>` tag — no npm dependency.
+Loads the self-contained Cognipuzzle bundle from the CDN with one `<script>` tag — no npm dependency.
 
-## Integration footprint
+## Footprint
 
-Cogniplay-aware files:
+| File                                             | Role                                                    |
+| ------------------------------------------------ | ------------------------------------------------------- |
+| [`index.html`](index.html)                       | bundle `<script>` tag + local sample data               |
+| [`vite.config.ts`](vite.config.ts)               | `isCustomElement` hint for `cogniplay-puzzle`           |
+| [`public/sample-data.js`](public/sample-data.js) | host-supplied puzzle data                               |
+| [`src/App.vue`](src/App.vue)                     | renders the element, feeds `:puzzle`, listens to events |
 
-- [`index.html`](index.html) — the bundle `<script>` tag (plus the local
-  sample data).
-- [`vite.config.ts`](vite.config.ts) — tells Vue's compiler that
-  `cogniplay-puzzle` is a custom element.
-- [`public/sample-data.js`](public/sample-data.js) — the host-supplied
-  puzzle data for the demo.
-- [`src/App.vue`](src/App.vue) — renders the element, feeds it the puzzle
-  as a property, listens to its DOM events.
+[`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** part of the integration — see below.
 
-[`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** in that
-list, and that is the point — see below.
+## Facts
 
-## The "How to play" panel is not free here
-
-The hosted iframe embed ships a "How to play" panel alongside the puzzle. The
-element ships no equivalent: it renders the board, and the guided tutorial it
-does support (its `tutorial` property) requires the host to supply every string
-it displays. This app shows a panel only because it is hand-written here, in
-[`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) — a copy of the hosted
-one, kept so the three demos look alike and the comparison is about integration
-rather than styling.
-
-The responsive behaviour is hand-built too. Above 1200px the panel is pinned to
-the right of the board; below it, the panel is replaced by a help button in the
-board's corner that opens a modal (closed by Escape, a backdrop click, or its
-close button). None of that comes from the element — it is this component's
-`matchMedia` watcher and markup.
-
-Adopt this pattern and the reader chrome — instructions, and anything else
-around the board — is yours to build and to keep in step with ours. That is a
-real cost of the bundle and npm patterns, and the reason the demos look
-identical is a deliberate choice here, not something the bundle gives you.
-
-## How it works
-
-- The bundle self-registers `<cogniplay-puzzle>` on load. This demo pins the
-  exact version (`/bundle/v1.1.0/`); `/bundle/v1/` is the major alias that
-  follows new deploys automatically (5-minute cache).
+- The bundle self-registers `<cogniplay-puzzle>` on load.
+- Version: this demo pins `/bundle/v1.1.0/`; `/bundle/v1/` is the major alias that follows deploys (5-min cache).
 - Feed the puzzle as a **property** (`:puzzle="…"`), not a JSON attribute.
-- Events (`change`, `solve`, `error`) are ordinary DOM `CustomEvent`s;
-  payload in `event.detail`.
-- Bad input never throws at the host page: the element emits `error` and
-  shows the `slot="fallback"` content.
-- The host must give the element a **definite** height (here `height: 360px`).
-  `min-height` alone is not enough — the element measures its own box to lay
-  out, so it collapses to a squat layout.
+- Events `change` / `solve` / `error` are DOM `CustomEvent`s; payload in `event.detail`.
+- Bad input never throws: the element emits `error` and shows the `slot="fallback"` content.
+- Give the element a **definite** `height` (here `360px`); `min-height` collapses the board.
+
+## Instructions panel (hand-built)
+
+- The element renders no instructions; its `tutorial` property needs host-supplied strings.
+- The panel and its responsive behaviour (pinned ≥1200px; help button + modal below, `matchMedia`-driven) are hand-written in [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue), copied from the hosted embed so the demos match.
+- Reader chrome is the host's to own — a real cost of the bundle and npm patterns.
 
 ## Run
 
