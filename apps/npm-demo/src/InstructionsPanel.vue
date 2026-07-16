@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 const GOAL =
   'Fill every open cell on the board with your pieces — no gaps, no overlaps.'
 const WIN = 'Every piece is placed and every open cell is covered.'
@@ -36,13 +38,43 @@ const CONTROLS: { label: string; paths: string[] }[] = [
     ],
   },
 ]
+
+const HELP_ICON = ['M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3', 'M12 17h.01']
+
+// Below this width the pinned panel is replaced by a help button + modal,
+// matching the hosted embed. The embed scopes this to its own viewport (the
+// iframe is the puzzle box); here both button and modal anchor to .stage.
+const DESKTOP_MIN_WIDTH = 1200
+
+const isDesktop = ref(true)
+const open = ref(false)
+let mql: MediaQueryList | null = null
+
+function onBreakpoint() {
+  isDesktop.value = mql!.matches
+  if (isDesktop.value) open.value = false
+}
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') open.value = false
+}
+
+onMounted(() => {
+  mql = window.matchMedia(`(min-width: ${DESKTOP_MIN_WIDTH}px)`)
+  isDesktop.value = mql.matches
+  mql.addEventListener('change', onBreakpoint)
+  document.addEventListener('keydown', onKeydown)
+})
+onBeforeUnmount(() => {
+  mql?.removeEventListener('change', onBreakpoint)
+  document.removeEventListener('keydown', onKeydown)
+})
 </script>
 
 <template>
-  <aside class="howto">
+  <aside v-if="isDesktop" class="howto">
     <h2>How to play</h2>
     <p class="goal">{{ GOAL }}</p>
-    <h3>How to play</h3>
+    <h3>Controls</h3>
     <ul class="controls">
       <li v-for="control in CONTROLS" :key="control.label">
         <svg
@@ -62,6 +94,65 @@ const CONTROLS: { label: string; paths: string[] }[] = [
     <h3>Win</h3>
     <p class="win">{{ WIN }}</p>
   </aside>
+
+  <button
+    v-else
+    class="help-button"
+    type="button"
+    aria-label="How to play"
+    aria-haspopup="dialog"
+    :aria-expanded="open"
+    @click="open = true"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path v-for="d in HELP_ICON" :key="d" :d="d" />
+    </svg>
+  </button>
+
+  <div v-if="!isDesktop && open" class="modal" @click.self="open = false">
+    <div class="card" role="dialog" aria-modal="true" aria-label="How to play">
+      <div class="card-header">
+        <h2>How to play</h2>
+        <button
+          class="close"
+          type="button"
+          aria-label="Close"
+          @click="open = false"
+        >
+          ✕
+        </button>
+      </div>
+      <p class="goal">{{ GOAL }}</p>
+      <h3>Controls</h3>
+      <ul class="controls">
+        <li v-for="control in CONTROLS" :key="control.label">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path v-for="d in control.paths" :key="d" :d="d" />
+          </svg>
+          <span>{{ control.label }}</span>
+        </li>
+      </ul>
+      <h3>Win</h3>
+      <p class="win">{{ WIN }}</p>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -111,5 +202,65 @@ p {
   flex: none;
   margin-top: 0.125rem;
   color: #71717a;
+}
+.help-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid #e4e4e7;
+  border-radius: 50%;
+  background: #fff;
+  color: #52525b;
+  cursor: pointer;
+}
+.help-button svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.modal {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.45);
+}
+.card {
+  width: 100%;
+  max-width: 26rem;
+  max-height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  font:
+    14px/1.5 system-ui,
+    sans-serif;
+  color: #27272a;
+  background: #fff;
+}
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.card-header h2 {
+  margin: 0 0 0.75rem;
+}
+.close {
+  border: none;
+  background: none;
+  padding: 0.25rem;
+  font-size: 1rem;
+  color: #71717a;
+  cursor: pointer;
 }
 </style>

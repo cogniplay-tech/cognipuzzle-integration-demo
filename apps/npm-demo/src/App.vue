@@ -89,6 +89,7 @@ main {
 /* The element measures its own box to lay out, so it needs a definite height.
    A min-height alone collapses the board. */
 .stage {
+  position: relative;
   display: flex;
   height: 360px;
   border: 1px solid #e4e4e7;
