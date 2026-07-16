@@ -29,6 +29,12 @@ it displays. This app shows a panel only because it is hand-written here, in
 one, kept so the three demos look alike and the comparison is about integration
 rather than styling.
 
+The responsive behaviour is hand-built too. Above 1200px the panel is pinned to
+the right of the board; below it, the panel is replaced by a help button in the
+board's corner that opens a modal (closed by Escape, a backdrop click, or its
+close button). None of that comes from the element — it is this component's
+`matchMedia` watcher and markup.
+
 Adopt this pattern and the reader chrome — instructions, and anything else
 around the board — is yours to build and to keep in step with ours. That is a
 real cost of the bundle and npm patterns, and the reason the demos look
