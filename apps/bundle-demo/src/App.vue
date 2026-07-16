@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import InstructionsPanel from './InstructionsPanel.vue'
 
 declare global {
@@ -8,15 +8,42 @@ declare global {
   }
 }
 
-const puzzle = ref<object>(window.cogniplaySample.puzzle)
+type PuzzleElement = HTMLElement & { reset: () => void }
+
+const PUZZLE_EVENTS = [
+  'ready',
+  'started',
+  'piece-picked-up',
+  'piece-placed',
+  'piece-returned',
+  'piece-rotated',
+  'solved',
+  'error',
+] as const
+
+const puzzleEl = ref<PuzzleElement | null>(null)
+const puzzle = ref<object | null>(null)
 const events = ref<string[]>([])
 
 function log(type: string, e: Event) {
   events.value.push(`${type} ${JSON.stringify((e as CustomEvent).detail)}`)
 }
 
+// Attach listeners before assigning `.puzzle`, so the load's `ready` is caught.
+onMounted(() => {
+  const el = puzzleEl.value!
+  for (const type of PUZZLE_EVENTS) {
+    el.addEventListener(type, (e) => log(type, e))
+  }
+  puzzle.value = window.cogniplaySample.puzzle
+})
+
 function feedSample() {
   puzzle.value = window.cogniplaySample.puzzle
+}
+
+function reset() {
+  puzzleEl.value?.reset()
 }
 </script>
 
@@ -29,12 +56,7 @@ function feedSample() {
       puzzle data as a property and listens to DOM events.
     </p>
     <div class="stage">
-      <cogniplay-puzzle
-        :puzzle="puzzle"
-        @change="log('change', $event)"
-        @solve="log('solve', $event)"
-        @error="log('error', $event)"
-      >
+      <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle">
         <div slot="fallback" class="fallback">
           The puzzle could not be loaded. Please try again later.
         </div>
@@ -43,6 +65,7 @@ function feedSample() {
     </div>
     <p>
       <button @click="feedSample">Restore sample puzzle</button>
+      <button @click="reset">Reset</button>
     </p>
     <section>
       <h2>Event log</h2>
