@@ -26,7 +26,10 @@ Cogniplay-aware files:
   and a live fetch from the content API, translated with
   `wirePuzzleToDomain()` (the API serves a `WirePuzzle`). API failures are
   handled gracefully — live content changes daily.
-- Events, fallback slot, sizing: identical element contract to the bundle
+- Sizing: give the element a **definite** height (`height: 360px` here). A
+  `min-height` is not enough — the element measures its own box to lay out, and
+  will render a collapsed strip inside a taller one.
+- Events and the fallback slot: identical element contract to the bundle
   pattern; see the package README (`node_modules/@cogniplay/puzzle/README.md`),
   which is the authoritative integration guide.
 - `pnpm typecheck` (`vue-tsc --noEmit`) passing against the imported types is

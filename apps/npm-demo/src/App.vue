@@ -22,13 +22,6 @@ function log(type: string, e: Event) {
   events.value.push(`${type} ${JSON.stringify((e as CustomEvent).detail)}`)
 }
 
-function feedBroken() {
-  puzzle.value = {
-    type: 'quatro-mino',
-    board: 'not-a-board',
-  } as unknown as Puzzle
-}
-
 function feedSample() {
   fetchError.value = null
   puzzle.value = window.cogniplaySample.puzzle
@@ -68,7 +61,6 @@ async function loadToday() {
     <p>
       <button @click="feedSample">Sample puzzle (local data)</button>
       <button @click="loadToday">Today's puzzle (live API)</button>
-      <button @click="feedBroken">Feed broken puzzle</button>
     </p>
     <p v-if="fetchError" class="fetch-error">
       Could not load today's puzzle ({{ fetchError }}) — the local sample
