@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import {
   wirePuzzleToDomain,
+  PUZZLE_EVENT_NAMES,
   type Puzzle,
   type WirePuzzle,
+  type CogniplayPuzzleElement,
 } from '@cogniplay/puzzle'
 import InstructionsPanel from './InstructionsPanel.vue'
 
@@ -15,17 +17,31 @@ declare global {
 
 const CONTENT_API = 'https://cognipuzzle-embed.com/embed/telex/daily/current'
 
-const puzzle = ref<Puzzle | null>(window.cogniplaySample.puzzle)
+const puzzleEl = ref<CogniplayPuzzleElement | null>(null)
+const puzzle = ref<Puzzle | null>(null)
 const events = ref<string[]>([])
 const fetchError = ref<string | null>(null)
 
-function log(type: string, e: Event) {
-  events.value.push(`${type} ${JSON.stringify((e as CustomEvent).detail)}`)
+function log(type: string, detail: unknown) {
+  events.value.push(`${type} ${JSON.stringify(detail)}`)
 }
+
+// Attach listeners before assigning `.puzzle`, so the load's `ready` is caught.
+onMounted(() => {
+  const el = puzzleEl.value!
+  for (const type of PUZZLE_EVENT_NAMES) {
+    el.addEventListener(type, (e) => log(type, e.detail))
+  }
+  puzzle.value = window.cogniplaySample.puzzle
+})
 
 function feedSample() {
   fetchError.value = null
   puzzle.value = window.cogniplaySample.puzzle
+}
+
+function reset() {
+  puzzleEl.value?.reset()
 }
 
 async function loadToday() {
@@ -50,12 +66,7 @@ async function loadToday() {
       typed.
     </p>
     <div class="stage">
-      <cogniplay-puzzle
-        :puzzle="puzzle"
-        @change="log('change', $event)"
-        @solve="log('solve', $event)"
-        @error="log('error', $event)"
-      >
+      <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle">
         <div slot="fallback" class="fallback">
           The puzzle could not be loaded. Please try again later.
         </div>
@@ -65,6 +76,7 @@ async function loadToday() {
     <p>
       <button @click="feedSample">Sample puzzle (local data)</button>
       <button @click="loadToday">Today's puzzle (live API)</button>
+      <button @click="reset">Reset</button>
     </p>
     <p v-if="fetchError" class="fetch-error">
       Could not load today's puzzle ({{ fetchError }}) — the local sample
