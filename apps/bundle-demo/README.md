@@ -1,6 +1,6 @@
 # bundle-demo
 
-Loads the self-contained Cognipuzzle bundle from the CDN with one `<script>` tag — no npm dependency.
+Loads the self-contained CogniPuzzle bundle from the CDN with one `<script>` tag — no npm dependency.
 
 ## Footprint
 

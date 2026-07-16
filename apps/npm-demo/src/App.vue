@@ -43,7 +43,7 @@ async function loadToday() {
 
 <template>
   <main>
-    <h1>Cognipuzzle — npm package</h1>
+    <h1>CogniPuzzle — npm package</h1>
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element comes from
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
