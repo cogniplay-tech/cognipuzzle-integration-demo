@@ -1,21 +1,14 @@
 # iframe-demo
 
-Embeds the CogniPuzzle daily puzzle with a plain `<iframe>` — no Cogniplay
-code dependency at all.
+Embeds the CogniPuzzle daily puzzle with a plain `<iframe>` — no Cogniplay code dependency.
 
-## Integration footprint
+**Footprint:** only [`src/App.vue`](src/App.vue) — the iframe tag and a `postMessage` listener. `package.json` is untouched Vite scaffold.
 
-The only Cogniplay-aware file is [`src/App.vue`](src/App.vue): the iframe tag
-and a `postMessage` listener. `package.json` is untouched Vite scaffold.
+## Facts
 
-## How it works
-
-- The iframe points at the hosted embed page:
-  `https://cognipuzzle-embed.com/play.html?embed=<outlet>`.
-- The host page owns the iframe's size. Puzzles adapt to whatever box they
-  are given; there is deliberately no auto-resize/height protocol.
-- Gameplay events are posted to the parent page as envelopes of the shape
-  `{ source: "cogniplay", v: 1, type, payload }`:
+- Source: `https://cognipuzzle-embed.com/play.html?embed=<outlet>`.
+- The host page owns the iframe size; puzzles adapt to any box (no auto-resize protocol).
+- Gameplay events post to the parent as `{ source: "cogniplay", v: 1, type, payload }`. Filter on `event.data?.source === "cogniplay"`.
 
 | `type`     | `payload`                       |
 | ---------- | ------------------------------- |
@@ -24,8 +17,6 @@ and a `postMessage` listener. `package.json` is untouched Vite scaffold.
 | `progress` | `{ placed, total }` (throttled) |
 | `solved`   | `{ elapsedMs }`                 |
 | `error`    | `{ kind, message }`             |
-
-Filter on `event.data?.source === "cogniplay"` and ignore everything else.
 
 ## Run
 
