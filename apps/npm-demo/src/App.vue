@@ -9,12 +9,6 @@ import {
 } from '@cogniplay/puzzle'
 import InstructionsPanel from './InstructionsPanel.vue'
 
-declare global {
-  interface Window {
-    cogniplaySample: { puzzle: Puzzle }
-  }
-}
-
 const CONTENT_API = 'https://cognipuzzle-embed.com/embed/telex/daily/current'
 
 const puzzleEl = ref<CogniplayPuzzleElement | null>(null)
@@ -32,13 +26,8 @@ onMounted(() => {
   for (const type of PUZZLE_EVENT_NAMES) {
     el.addEventListener(type, (e) => log(type, e.detail))
   }
-  puzzle.value = window.cogniplaySample.puzzle
+  void loadToday()
 })
-
-function feedSample() {
-  fetchError.value = null
-  puzzle.value = window.cogniplaySample.puzzle
-}
 
 function reset() {
   puzzleEl.value?.reset()
@@ -74,13 +63,11 @@ async function loadToday() {
       <InstructionsPanel />
     </div>
     <p>
-      <button @click="feedSample">Sample puzzle (local data)</button>
-      <button @click="loadToday">Today's puzzle (live API)</button>
+      <button @click="loadToday">Reload today's puzzle</button>
       <button @click="reset">Reset</button>
     </p>
     <p v-if="fetchError" class="fetch-error">
-      Could not load today's puzzle ({{ fetchError }}) — the local sample
-      remains the reliable path.
+      Could not load today's puzzle ({{ fetchError }}).
     </p>
     <section>
       <h2>Event log</h2>

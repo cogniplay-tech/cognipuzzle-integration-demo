@@ -4,13 +4,12 @@ Installs `@cogniplay/puzzle` from the private registry — full TypeScript types
 
 ## Footprint
 
-| File                                             | Role                                          |
-| ------------------------------------------------ | --------------------------------------------- |
-| [`package.json`](package.json)                   | `@cogniplay/puzzle` pinned exactly            |
-| [`src/main.ts`](src/main.ts)                     | `defineCogniplayPuzzle()` once at startup     |
-| [`vite.config.ts`](vite.config.ts)               | `isCustomElement` hint for Vue's compiler     |
-| [`public/sample-data.js`](public/sample-data.js) | host-supplied demo data                       |
-| [`src/App.vue`](src/App.vue)                     | typed `Puzzle` ref, events, both data sources |
+| File                               | Role                                      |
+| ---------------------------------- | ----------------------------------------- |
+| [`package.json`](package.json)     | `@cogniplay/puzzle` pinned exactly        |
+| [`src/main.ts`](src/main.ts)       | `defineCogniplayPuzzle()` once at startup |
+| [`vite.config.ts`](vite.config.ts) | `isCustomElement` hint for Vue's compiler |
+| [`src/App.vue`](src/App.vue)       | typed `Puzzle` ref, events, live fetch    |
 
 [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** part of the integration — see below.
 
@@ -21,7 +20,7 @@ Installs `@cogniplay/puzzle` from the private registry — full TypeScript types
 
 ## Facts
 
-- Two data sources: host-supplied (`sample-data.js`) and a live fetch translated with `wirePuzzleToDomain()` (the API serves a `WirePuzzle`).
+- The puzzle comes from a live fetch translated with `wirePuzzleToDomain()` (the API serves a `WirePuzzle`).
 - Events are DOM `CustomEvent`s: `ready`, `started`, `piece-picked-up` / `piece-placed` / `piece-returned` / `piece-rotated`, `solved`, `error`. Listeners use the typed `addEventListener` overload from `CogniplayPuzzleEventMap`, so `event.detail` is typed with no casts. Attach them **before** setting `.puzzle` or the load's `ready` is missed.
 - A solved board is final (ignores input); the **Reset** button calls `el.reset()` to return it to the start and re-fire `ready`. Bad input emits `error` and shows the `slot="fallback"` content.
 - Give the element a **definite** `height` (`360px`); `min-height` collapses the board.
