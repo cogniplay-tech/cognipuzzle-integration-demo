@@ -65,8 +65,8 @@ importers:
   apps/npm-demo:
     dependencies:
       '@cogniplay/puzzle':
-        specifier: 0.4.0
-        version: 0.4.0
+        specifier: 0.7.0
+        version: 0.7.0
       vue:
         specifier: ^3.5.39
         version: 3.5.39(typescript@6.0.3)
@@ -109,8 +109,8 @@ packages:
     resolution: {integrity: sha512-4zBIxpPzowiZpusoFkyGVwakdRJUyuH5PxQ/PrqghfdFWWasvnCdPfQXHrenDai+gyLARulZjZowCOj6fjT4pA==}
     engines: {node: '>=6.9.0'}
 
-  '@cogniplay/puzzle@0.4.0':
-    resolution: {integrity: sha512-cpapZDIoHRi4g/GYusjONzYOHgEoeY6yDmbJdRZmrdBMiiyynpakyqcoTzZ6K9NZp6u7H1C62KJ4ooiWjhSEag==}
+  '@cogniplay/puzzle@0.7.0':
+    resolution: {integrity: sha512-GJrDq25+YNeiCWJqEfzUZcong7E1v6NHe0txSsxfF5IS182I5L6AbCcJbefgzL6MUtUYJsrbOlyA1LtXUym/Zg==}
 
   '@emnapi/core@1.11.1':
     resolution: {integrity: sha512-RSvbQmHzdKzNsLYa/wHrbc3KN4sYLKAdPZxqiM2HATqv/SBk2/ENSHpvXGaLOMcsAyz0poEGqkmmKYG3OWiJEQ==}
@@ -530,7 +530,7 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@cogniplay/puzzle@0.4.0': {}
+  '@cogniplay/puzzle@0.7.0': {}
 
   '@emnapi/core@1.11.1':
     dependencies:
