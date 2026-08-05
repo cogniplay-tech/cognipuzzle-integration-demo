@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, useTemplateRef } from 'vue'
 import {
   wirePuzzleToDomain,
   PUZZLE_EVENT_NAMES,
@@ -11,9 +11,10 @@ import InstructionsPanel from './InstructionsPanel.vue'
 
 const CONTENT_API = 'https://cognipuzzle-embed.com/embed/telex/daily/current'
 
-const puzzleEl = ref<CogniplayPuzzleElement | null>(null)
+const puzzleEl = useTemplateRef<CogniplayPuzzleElement>('puzzleEl')
 const puzzle = ref<Puzzle | null>(null)
 const events = ref<string[]>([])
+const loading = ref(false)
 const fetchError = ref<string | null>(null)
 
 function log(type: string, detail: unknown) {
@@ -33,14 +34,17 @@ function reset() {
 }
 
 async function loadToday() {
+  loading.value = true
   fetchError.value = null
   try {
     const res = await fetch(CONTENT_API)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const body: { puzzle: WirePuzzle } = await res.json()
+    const body = (await res.json()) as { puzzle: WirePuzzle }
     puzzle.value = wirePuzzleToDomain(body.puzzle)
   } catch (err) {
     fetchError.value = err instanceof Error ? err.message : String(err)
+  } finally {
+    loading.value = false
   }
 }
 </script>
@@ -62,10 +66,13 @@ async function loadToday() {
       <InstructionsPanel />
     </div>
     <p>
-      <button @click="loadToday">Reload today's puzzle</button>
+      <button :disabled="loading" @click="loadToday">
+        Reload today's puzzle
+      </button>
       <button @click="reset">Reset</button>
     </p>
-    <p v-if="fetchError" class="fetch-error">
+    <p v-if="loading" class="loading">Loading today's puzzle…</p>
+    <p v-else-if="fetchError" class="fetch-error">
       Could not load today's puzzle ({{ fetchError }}).
     </p>
     <section>
@@ -158,6 +165,9 @@ cogniplay-puzzle {
 .fallback {
   padding: 2rem;
   background: #fdecec;
+}
+.loading {
+  color: #71717a;
 }
 .fetch-error {
   color: #a33;
