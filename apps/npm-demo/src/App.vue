@@ -20,7 +20,6 @@ function log(type: string, detail: unknown) {
   events.value.push(`${type} ${JSON.stringify(detail)}`)
 }
 
-// Attach listeners before assigning `.puzzle`, so the load's `ready` is caught.
 onMounted(() => {
   const el = puzzleEl.value!
   for (const type of PUZZLE_EVENT_NAMES) {
@@ -55,7 +54,7 @@ async function loadToday() {
       typed.
     </p>
     <div class="stage">
-      <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle">
+      <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle" show-timer>
         <div slot="fallback" class="fallback">
           The puzzle could not be loaded. Please try again later.
         </div>
@@ -99,11 +98,6 @@ cogniplay-puzzle {
   min-width: 0;
   height: 100%;
 
-  /* Telex-branded theme, colours taken from telex.hu's own design tokens
-     (their .main--light theme block; hex knobs need 6-digit values).
-     Every registry knob is listed; values without a telex override are the
-     renderer defaults. */
-
   /* Piece palette (slots 1-10 = author order a-j) */
   --cogniplay-piece-1-color: #009966;
   --cogniplay-piece-2-color: #009966;
@@ -125,9 +119,9 @@ cogniplay-puzzle {
   --cogniplay-preview-invalid: rgba(204, 0, 0, 0.3);
 
   /* Board and shared geometry */
-  --cogniplay-board-cell-color: #dddddd;
+  --cogniplay-board-cell-color: #808080;
   --cogniplay-board-outline: cell;
-  --cogniplay-board-outline-color: #113355;
+  --cogniplay-board-outline-color: #515151;
   --cogniplay-gap: 0;
   --cogniplay-corner-radius: 0.12;
   --cogniplay-outline-width: 1.5;
@@ -137,7 +131,7 @@ cogniplay-puzzle {
   --cogniplay-rim-shadow-softness: 0.1;
 
   /* Blockers */
-  --cogniplay-blocker-color: #113355;
+  --cogniplay-blocker-color: #ffffff;
   --cogniplay-blocker-logo-mode: one;
 
   /* Panel */
