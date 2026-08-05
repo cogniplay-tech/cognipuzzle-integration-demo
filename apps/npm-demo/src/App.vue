@@ -98,6 +98,68 @@ cogniplay-puzzle {
   flex: 1 1 auto;
   min-width: 0;
   height: 100%;
+
+  /* Telex-branded theme, colours taken from telex.hu's own design tokens
+     (their .main--light theme block; hex knobs need 6-digit values).
+     Every registry knob is listed; values without a telex override are the
+     renderer defaults. */
+
+  /* Piece palette (slots 1-10 = author order a-j) */
+  --cogniplay-piece-1-color: #009966;
+  --cogniplay-piece-2-color: #009966;
+  --cogniplay-piece-3-color: #113355;
+  --cogniplay-piece-4-color: #113355;
+  --cogniplay-piece-5-color: #7b52c2;
+  --cogniplay-piece-6-color: #7b52c2;
+  --cogniplay-piece-7-color: #7b52c2;
+  --cogniplay-piece-8-color: #113355;
+  --cogniplay-piece-9-color: #113355;
+  --cogniplay-piece-10-color: #113355;
+
+  /* Pieces */
+  --cogniplay-piece-outline: cell;
+  --cogniplay-piece-rim: cell;
+  --cogniplay-piece-sheen: 0;
+  --cogniplay-piece-shadow: 0;
+  --cogniplay-preview-valid: rgba(0, 153, 102, 0.3);
+  --cogniplay-preview-invalid: rgba(204, 0, 0, 0.3);
+
+  /* Board and shared geometry */
+  --cogniplay-board-cell-color: #dddddd;
+  --cogniplay-board-outline: cell;
+  --cogniplay-board-outline-color: #113355;
+  --cogniplay-gap: 0;
+  --cogniplay-corner-radius: 0.12;
+  --cogniplay-outline-width: 1.5;
+  --cogniplay-rim-width: 0.3;
+  --cogniplay-rim-shadow-style: edge;
+  --cogniplay-rim-shadow: 0.3;
+  --cogniplay-rim-shadow-softness: 0.1;
+
+  /* Blockers */
+  --cogniplay-blocker-color: #113355;
+  --cogniplay-blocker-logo-mode: one;
+
+  /* Panel */
+  --cogniplay-panel-color: #ffffff;
+  --cogniplay-panel-rim: 12;
+  --cogniplay-panel-radius: 24;
+  --cogniplay-panel-shadow: 0.28;
+
+  /* Tutorial overlay */
+  --cogniplay-tutorial-accent: #009966;
+  --cogniplay-tutorial-on-accent: #1a1a1f;
+  --cogniplay-tutorial-bg: #32323a;
+  --cogniplay-tutorial-text: #f5f5f7;
+  --cogniplay-tutorial-text-secondary: #a1a1aa;
+  --cogniplay-tutorial-surface: #26262d;
+  --cogniplay-tutorial-scrim: #1a1a1f;
+  --cogniplay-tutorial-radius: 1rem;
+
+  /* Timer overlay */
+  --cogniplay-timer-bg: rgba(0, 0, 0, 0.16);
+  --cogniplay-timer-text: #424242;
+  --cogniplay-timer-solved: #009966;
 }
 .fallback {
   padding: 2rem;
