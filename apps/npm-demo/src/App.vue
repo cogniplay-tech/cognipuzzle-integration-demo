@@ -128,7 +128,7 @@ async function loadToday() {
 
 <template>
   <main>
-    <h1>CogniPuzzle — npm package</h1>
+    <h1>CogniPuzzle - npm package</h1>
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element comes from
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
@@ -136,8 +136,21 @@ async function loadToday() {
     </p>
     <div class="stage-slot">
       <div ref="stage" class="stage" :class="{ expanded }">
-        <div v-if="expanded" class="takeover-header">
-          <button ref="closeButton" @click="collapse">Close</button>
+        <!-- Rendered while collapsed too (hidden), so the help button
+             below can teleport in as the takeover opens. -->
+        <div v-show="expanded" class="takeover-header">
+          <span class="takeover-title">Today's puzzle</span>
+          <div class="takeover-actions">
+            <span id="takeover-help"></span>
+            <button
+              ref="closeButton"
+              class="button"
+              type="button"
+              @click="collapse"
+            >
+              Close
+            </button>
+          </div>
         </div>
         <cogniplay-puzzle
           ref="puzzleEl"
@@ -158,14 +171,16 @@ async function loadToday() {
         >
           <span>Tap to play</span>
         </button>
-        <InstructionsPanel />
+        <Teleport to="#takeover-help" :disabled="!expanded" defer>
+          <InstructionsPanel />
+        </Teleport>
       </div>
     </div>
-    <p>
-      <button :disabled="loading" @click="loadToday">
+    <p class="actions">
+      <button class="button" :disabled="loading" @click="loadToday">
         Reload today's puzzle
       </button>
-      <button @click="reset">Reset</button>
+      <button class="button" @click="reset">Reset</button>
     </p>
     <p v-if="loading" class="loading">Loading today's puzzle…</p>
     <p v-else-if="fetchError" class="fetch-error">
@@ -216,8 +231,48 @@ cogniplay-puzzle {
   flex: none;
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   border-bottom: 1px solid #e4e4e7;
+}
+.takeover-title {
+  font-weight: 600;
+  color: #27272a;
+}
+.takeover-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Inside the header the help button sits in the row, not pinned to the
+   stage corner. */
+.takeover-actions :deep(.help-button) {
+  position: static;
+}
+.button {
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #27272a;
+  font:
+    500 0.875rem system-ui,
+    sans-serif;
+  cursor: pointer;
+  transition: background-color 120ms;
+}
+.button:hover {
+  background: #f4f4f5;
+}
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.actions {
+  display: flex;
+  gap: 0.5rem;
 }
 .tap-layer {
   position: absolute;
