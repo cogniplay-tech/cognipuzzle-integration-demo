@@ -9,6 +9,7 @@ import {
   type ThemePatch,
 } from '@cogniplay/puzzle'
 import InstructionsPanel from './InstructionsPanel.vue'
+import { useTakeover } from './useTakeover'
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
@@ -81,6 +82,14 @@ const events = ref<string[]>([])
 const loading = ref(false)
 const fetchError = ref<string | null>(null)
 
+// On narrow screens the element claims every touch gesture inside its box,
+// so a finger landing on it cannot scroll the page. A tap layer covers the
+// stage there; tapping grows the stage to full screen.
+const stage = useTemplateRef<HTMLElement>('stage')
+const tapLayer = useTemplateRef<HTMLElement>('tapLayer')
+const closeButton = useTemplateRef<HTMLElement>('closeButton')
+const { expanded, expand, collapse } = useTakeover(stage, tapLayer, closeButton)
+
 function log(type: string, detail: unknown) {
   events.value.push(`${type} ${JSON.stringify(detail)}`)
 }
@@ -125,18 +134,32 @@ async function loadToday() {
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
       typed.
     </p>
-    <div class="stage">
-      <cogniplay-puzzle
-        ref="puzzleEl"
-        :puzzle="puzzle"
-        :theme="theme"
-        show-timer
-      >
-        <div slot="fallback" class="fallback">
-          The puzzle could not be loaded. Please try again later.
+    <div class="stage-slot">
+      <div ref="stage" class="stage" :class="{ expanded }">
+        <div v-if="expanded" class="takeover-header">
+          <button ref="closeButton" @click="collapse">Close</button>
         </div>
-      </cogniplay-puzzle>
-      <InstructionsPanel />
+        <cogniplay-puzzle
+          ref="puzzleEl"
+          :puzzle="puzzle"
+          :theme="theme"
+          show-timer
+        >
+          <div slot="fallback" class="fallback">
+            The puzzle could not be loaded. Please try again later.
+          </div>
+        </cogniplay-puzzle>
+        <button
+          v-show="!expanded"
+          ref="tapLayer"
+          class="tap-layer"
+          type="button"
+          @click="expand"
+        >
+          <span>Tap to play</span>
+        </button>
+        <InstructionsPanel />
+      </div>
     </div>
     <p>
       <button :disabled="loading" @click="loadToday">
@@ -177,6 +200,51 @@ cogniplay-puzzle {
   flex: 1 1 auto;
   min-width: 0;
   height: 100%;
+}
+/* Full screen: the header takes a row and the board fills the rest. */
+.stage.expanded {
+  flex-direction: column;
+  border: 0;
+  background: #fff;
+}
+.stage.expanded cogniplay-puzzle {
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+}
+.takeover-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #e4e4e7;
+}
+.tap-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.tap-layer span {
+  display: block;
+  width: 100%;
+  padding: 2.5rem 0 0.75rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  color: #fff;
+  font:
+    600 0.875rem system-ui,
+    sans-serif;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .tap-layer {
+    display: none;
+  }
 }
 .fallback {
   padding: 2rem;
