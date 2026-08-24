@@ -54,12 +54,6 @@ const theme: ThemePatch = {
   'blocker-color': '#ffffff',
   'blocker-logo-mode': 'one',
 
-  // Panel
-  'panel-color': '#ffffff',
-  'panel-rim': '12',
-  'panel-radius': '24',
-  'panel-shadow': '0.28',
-
   // Tutorial overlay
   'tutorial-accent': '#009966',
   'tutorial-on-accent': '#1a1a1f',
