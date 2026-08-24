@@ -16,7 +16,7 @@ Loads the self-contained CogniPuzzle bundle from the CDN with one `<script>` tag
 ## Facts
 
 - The bundle self-registers `<cogniplay-puzzle>` on load.
-- Version: this demo pins `/bundle/v1.2.0/`; `/bundle/v1/` is the major alias that follows deploys (5-min cache).
+- Version: this demo pins `/bundle/v1.7.0/`; `/bundle/v1/` is the major alias that follows deploys (5-min cache).
 - Feed the puzzle as a **property** (`:puzzle="…"`), not a JSON attribute.
 - Events are DOM `CustomEvent`s (payload in `event.detail`): `ready`, `started`, `piece-picked-up` / `piece-placed` / `piece-returned` / `piece-rotated`, `solved`, `error`. Attach listeners **before** setting `.puzzle` or the load's `ready` is missed.
 - A solved board is final (ignores input); the **Reset** button calls `el.reset()` to return it to the start and re-fire `ready`.
