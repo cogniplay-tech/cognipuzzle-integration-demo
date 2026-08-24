@@ -7,7 +7,7 @@ Loads the self-contained CogniPuzzle bundle from the CDN with one `<script>` tag
 | File                               | Role                                                   |
 | ---------------------------------- | ------------------------------------------------------ |
 | [`index.html`](index.html)         | bundle `<script>` tag                                  |
-| [`vite.config.ts`](vite.config.ts) | `isCustomElement` hint for `cogniplay-puzzle`          |
+| [`vite.config.ts`](vite.config.ts) | `isCustomElement` hint; `envDir` → workspace root      |
 | [`src/App.vue`](src/App.vue)       | fetches the puzzle, feeds `:puzzle`, listens to events |
 
 [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** part of the integration — see below.

@@ -20,6 +20,14 @@ interface CogniplayEnvelope {
   payload: Record<string, unknown>
 }
 
+const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
+const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
+// The player's query param for the series is named `challenge`.
+const EMBED_URL =
+  OUTLET && SERIES
+    ? `https://cognipuzzle-embed.com/play.html?embed=${OUTLET}&challenge=${SERIES}`
+    : null
+
 const events = ref<string[]>([])
 
 function onMessage(e: MessageEvent) {
@@ -36,9 +44,14 @@ onUnmounted(() => window.removeEventListener('message', onMessage))
   <main>
     <h1>CogniPuzzle — iframe embed</h1>
     <iframe
-      src="https://cognipuzzle-embed.com/play.html?embed=telex"
+      v-if="EMBED_URL"
+      :src="EMBED_URL"
       title="CogniPuzzle daily puzzle"
     ></iframe>
+    <p v-else class="config-error">
+      Set <code>VITE_COGNIPLAY_OUTLET</code> and
+      <code>VITE_COGNIPLAY_SERIES</code> in <code>.env.local</code>.
+    </p>
     <section>
       <h2>Event log</h2>
       <ul>
@@ -59,6 +72,9 @@ iframe {
   width: 100%;
   height: 360px;
   border: 0;
+}
+.config-error {
+  color: #a33;
 }
 ul {
   font-family: monospace;

@@ -2,11 +2,11 @@
 
 Embeds the CogniPuzzle daily puzzle with a plain `<iframe>` — no Cogniplay code dependency.
 
-**Footprint:** only [`src/App.vue`](src/App.vue) — the iframe tag and a `postMessage` listener. `package.json` is untouched Vite scaffold.
+**Footprint:** [`src/App.vue`](src/App.vue) — the iframe tag and a `postMessage` listener — plus the `envDir` line in [`vite.config.ts`](vite.config.ts) that reads the outlet and series from the workspace-root `.env.local`. `package.json` is untouched Vite scaffold.
 
 ## Facts
 
-- Source: `https://cognipuzzle-embed.com/play.html?embed=<outlet>`.
+- Source: `https://cognipuzzle-embed.com/play.html?embed=<outlet>&challenge=<series>` (the series query param is named `challenge`).
 - The host page owns the iframe size; puzzles adapt to any box (no auto-resize protocol).
 - Gameplay events post to the parent as `{ source: "cogniplay", v: 1, embed, type, payload }`. Filter on `event.data?.source === "cogniplay"`.
 
