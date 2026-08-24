@@ -12,14 +12,14 @@ matches how you integrate.
 
 ## Comparison
 
-|                  | iframe                  | JS bundle              | npm package                   |
-| ---------------- | ----------------------- | ---------------------- | ----------------------------- |
-| Code dependency  | none                    | one `<script>` tag     | `@cogniplay/puzzle`           |
-| Build config     | none                    | `isCustomElement` hint | `isCustomElement` hint        |
-| Data feed        | platform-resolved       | host-supplied          | host-supplied and/or fetched  |
-| TypeScript types | —                       | —                      | full (`Puzzle`, `WirePuzzle`) |
-| Events           | `postMessage` envelopes | DOM `CustomEvent`s     | DOM `CustomEvent`s            |
-| Instructions UI  | included                | hand-built             | hand-built                    |
-| Updates          | automatic               | pinned, or `v1` alias  | like any npm dependency       |
+|                  | iframe                  | JS bundle                    | npm package                   |
+| ---------------- | ----------------------- | ---------------------------- | ----------------------------- |
+| Code dependency  | none                    | one `<script>` tag           | `@cogniplay/puzzle`           |
+| Build config     | none                    | `isCustomElement` hint       | `isCustomElement` hint        |
+| Data feed        | platform-resolved       | host-supplied and/or fetched | host-supplied and/or fetched  |
+| TypeScript types | —                       | —                            | full (`Puzzle`, `WirePuzzle`) |
+| Events           | `postMessage` envelopes | DOM `CustomEvent`s           | DOM `CustomEvent`s            |
+| Instructions UI  | included                | hand-built                   | hand-built                    |
+| Updates          | automatic               | pinned, or `v1` alias        | like any npm dependency       |
 
 Event names and payloads: see each app's README.
