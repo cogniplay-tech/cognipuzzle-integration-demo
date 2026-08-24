@@ -1,42 +1,10 @@
 # npm-demo
 
-Installs `@cogniplay/puzzle` from the private registry — full TypeScript types, customer-controlled versioning.
-
-## Footprint
-
-| File                                       | Role                                      |
-| ------------------------------------------ | ----------------------------------------- |
-| [`package.json`](package.json)             | `@cogniplay/puzzle` pinned exactly        |
-| [`src/main.ts`](src/main.ts)               | `defineCogniplayPuzzle()` once at startup |
-| [`vite.config.ts`](vite.config.ts)         | `isCustomElement` hint; `envDir` → root   |
-| [`src/App.vue`](src/App.vue)               | typed `Puzzle` ref, `ThemePatch`, events  |
-| [`src/useTakeover.ts`](src/useTakeover.ts) | full-screen stage on narrow screens       |
-
-[`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** part of the integration — see below.
+Installs `@cogniplay/puzzle` from the private registry — full TypeScript types, customer-controlled versioning. The integration is [`package.json`](package.json), the `defineCogniplayPuzzle()` call in [`src/main.ts`](src/main.ts), the `isCustomElement` hint in [`vite.config.ts`](vite.config.ts), and [`src/App.vue`](src/App.vue) with [`src/useTakeover.ts`](src/useTakeover.ts). [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is hand-built reader chrome, not part of the integration (see the root README).
 
 ## Registry
 
 - Workspace-root [`.npmrc`](../../.npmrc) routes the `@cogniplay` scope to Cloudsmith.
 - Auth comes from your user `~/.npmrc` (read-only entitlement token); no token is committed.
 
-## Facts
-
-- The puzzle comes from a live fetch translated with `wirePuzzleToDomain()` (the API serves a `WirePuzzle`).
-- Theming is a typed `ThemePatch` object assigned to the element's `theme` property (`:theme="theme"`); every knob, including `timer-*` and `tutorial-*`, goes there.
-- Events are DOM `CustomEvent`s: `ready`, `started`, `piece-picked-up` / `piece-placed` / `piece-returned` / `piece-rotated`, `solved`, `error`. Listeners use the typed `addEventListener` overload from `CogniplayPuzzleEventMap`, so `event.detail` is typed with no casts. Attach them **before** setting `.puzzle` or the load's `ready` is missed.
-- A solved board is final (ignores input); the **Reset** button calls `el.reset()` to return it to the start and re-fire `ready`. Bad input emits `error` and shows the `slot="fallback"` content.
-- Give the element a **definite** `height` (`360px`); `min-height` collapses the board.
-- Below 768px the element claims every touch gesture inside its box, which would trap page scrolling, so a **Tap to play** layer covers the stage and tapping grows the stage to full screen ([`src/useTakeover.ts`](src/useTakeover.ts)). The stage goes `position: fixed` and animates from its own rect; nothing re-parents, so in-progress state survives expand and collapse. **Close** or Escape collapses it, as does widening the window past 768px.
-- `pnpm typecheck` (`vue-tsc --noEmit`) passes against the bundled types — they are self-contained.
-- The package README (`node_modules/@cogniplay/puzzle/README.md`) is the authoritative integration guide.
-
-## Instructions panel (hand-built)
-
-- The element renders no instructions; its `tutorial` property needs host-supplied strings.
-- The panel and its responsive behaviour (pinned ≥1200px; help button + modal below, `matchMedia`-driven) are hand-written in [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue), copied from the hosted embed so the demos match.
-- Reader chrome is the host's to own — a real cost of the bundle and npm patterns.
-
-## Run
-
-    pnpm dev         # http://localhost:3882
-    pnpm typecheck
+The package README (`node_modules/@cogniplay/puzzle/README.md`) is the authoritative integration guide.

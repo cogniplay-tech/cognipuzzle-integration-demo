@@ -32,4 +32,11 @@ is gitignored.
 | Instructions UI  | included                | hand-built                   | hand-built                    |
 | Updates          | automatic               | pinned, or `v1` alias        | like any npm dependency       |
 
-Event names and payloads: see each app's README.
+Shared by the two element demos:
+
+- The puzzle is fed as a DOM **property** (`:puzzle="…"`), never a JSON
+  attribute. The `isCustomElement` hint in `vite.config.ts` stops Vue from
+  resolving `<cogniplay-puzzle>` as a component.
+- The element renders no instructions (its `tutorial` property needs
+  host-supplied strings), so `src/InstructionsPanel.vue` is reader chrome copied
+  from the hosted embed — the host's to own, and not part of the integration.
