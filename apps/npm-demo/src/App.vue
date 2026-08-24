@@ -88,7 +88,14 @@ const fetchError = ref<string | null>(null)
 const stage = useTemplateRef<HTMLElement>('stage')
 const tapLayer = useTemplateRef<HTMLElement>('tapLayer')
 const closeButton = useTemplateRef<HTMLElement>('closeButton')
-const { expanded, expand, collapse } = useTakeover(stage, tapLayer, closeButton)
+// Keep in step with the tap layer's media query below.
+const DESKTOP_QUERY = '(min-width: 768px)'
+const { expanded, expand, collapse } = useTakeover(
+  stage,
+  tapLayer,
+  closeButton,
+  DESKTOP_QUERY,
+)
 
 function log(type: string, detail: unknown) {
   events.value.push(`${type} ${JSON.stringify(detail)}`)
@@ -146,7 +153,7 @@ async function loadToday() {
               ref="closeButton"
               class="button"
               type="button"
-              @click="collapse"
+              @click="collapse()"
             >
               Close
             </button>
@@ -296,6 +303,7 @@ cogniplay-puzzle {
     sans-serif;
   text-align: center;
 }
+/* Same breakpoint as DESKTOP_QUERY in the script. */
 @media (min-width: 768px) {
   .tap-layer {
     display: none;

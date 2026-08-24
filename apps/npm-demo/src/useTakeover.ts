@@ -2,11 +2,13 @@ import { nextTick, onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 
 // Grows `frame` from its own rect to the full viewport and back. The frame
 // stays where it is in the DOM, so the puzzle inside keeps its state across
-// both directions. `opener` and `closer` receive focus after each move.
+// both directions. `opener` and `closer` receive focus after each move. Once
+// the viewport matches `desktopQuery`, an open takeover collapses at once.
 export function useTakeover(
   frame: Ref<HTMLElement | null>,
   opener: Ref<HTMLElement | null>,
   closer: Ref<HTMLElement | null>,
+  desktopQuery: string,
 ) {
   const DURATION = 250
   const TRANSITION = ['top', 'left', 'width', 'height']
@@ -54,7 +56,7 @@ export function useTakeover(
     closer.value?.focus()
   }
 
-  function collapse() {
+  function collapse(animate = !reducedMotion()) {
     const el = frame.value
     if (!el || !expanded.value || settling) return
     const target = el.parentElement!.getBoundingClientRect()
@@ -69,7 +71,7 @@ export function useTakeover(
       await nextTick()
       opener.value?.focus()
     }
-    if (reducedMotion()) {
+    if (!animate) {
       void settle()
     } else {
       settling = true
@@ -96,9 +98,21 @@ export function useTakeover(
     })
   }
 
-  onMounted(() => document.addEventListener('keydown', onKeydown))
+  // A window resized past the breakpoint while expanded would otherwise
+  // stay full screen on a desktop layout that plays in place.
+  let desktop: MediaQueryList | null = null
+  function onBreakpoint() {
+    if (desktop!.matches) collapse(false)
+  }
+
+  onMounted(() => {
+    document.addEventListener('keydown', onKeydown)
+    desktop = matchMedia(desktopQuery)
+    desktop.addEventListener('change', onBreakpoint)
+  })
   onBeforeUnmount(() => {
     document.removeEventListener('keydown', onKeydown)
+    desktop?.removeEventListener('change', onBreakpoint)
     document.documentElement.style.overflow = ''
   })
 
