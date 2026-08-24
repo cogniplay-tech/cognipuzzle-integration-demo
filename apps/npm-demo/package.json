@@ -10,7 +10,7 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
-    "@cogniplay/puzzle": "0.7.0",
+    "@cogniplay/puzzle": "0.8.0",
     "vue": "^3.5.39"
   },
   "devDependencies": {
