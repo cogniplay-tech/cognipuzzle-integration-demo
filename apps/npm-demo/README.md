@@ -8,7 +8,7 @@ Installs `@cogniplay/puzzle` from the private registry — full TypeScript types
 | ---------------------------------- | ----------------------------------------- |
 | [`package.json`](package.json)     | `@cogniplay/puzzle` pinned exactly        |
 | [`src/main.ts`](src/main.ts)       | `defineCogniplayPuzzle()` once at startup |
-| [`vite.config.ts`](vite.config.ts) | `isCustomElement` hint for Vue's compiler |
+| [`vite.config.ts`](vite.config.ts) | `isCustomElement` hint; `envDir` → root   |
 | [`src/App.vue`](src/App.vue)       | typed `Puzzle` ref, `ThemePatch`, events  |
 
 [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** part of the integration — see below.

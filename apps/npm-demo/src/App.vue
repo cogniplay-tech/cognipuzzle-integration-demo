@@ -10,7 +10,9 @@ import {
 } from '@cogniplay/puzzle'
 import InstructionsPanel from './InstructionsPanel.vue'
 
-const CONTENT_API = 'https://cognipuzzle-embed.com/embed/telex/daily/current'
+const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
+const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
+const CONTENT_API = `https://cognipuzzle-embed.com/embed/${OUTLET}/${SERIES}/current`
 
 // Outlet look. Every knob lives here, including timer-* and
 // tutorial-*, and reaches the element through its `theme` property.
@@ -99,6 +101,10 @@ async function loadToday() {
   loading.value = true
   fetchError.value = null
   try {
+    if (!OUTLET || !SERIES)
+      throw new Error(
+        'VITE_COGNIPLAY_OUTLET and VITE_COGNIPLAY_SERIES must be set',
+      )
     const res = await fetch(CONTENT_API)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const body = (await res.json()) as { puzzle: WirePuzzle }

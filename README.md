@@ -10,6 +10,16 @@ matches how you integrate.
 | [`apps/bundle-demo`](apps/bundle-demo) | `<script>` JS bundle | 3881     | `pnpm dev:bundle` |
 | [`apps/npm-demo`](apps/npm-demo)       | npm package          | 3882     | `pnpm dev:npm`    |
 
+## Setup
+
+Every app reads the outlet and series slugs from `VITE_COGNIPLAY_OUTLET` and
+`VITE_COGNIPLAY_SERIES`:
+
+    cp .env.example .env.local   # then fill in both values
+
+`.env.local` lives at the workspace root (each app's `envDir` points here) and
+is gitignored.
+
 ## Comparison
 
 |                  | iframe                  | JS bundle                    | npm package                   |

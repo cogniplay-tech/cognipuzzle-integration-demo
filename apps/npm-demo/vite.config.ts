@@ -11,5 +11,6 @@ export default defineConfig({
       },
     }),
   ],
+  envDir: '../..',
   server: { port: 3882, strictPort: true },
 })
