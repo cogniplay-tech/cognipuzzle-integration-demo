@@ -9,6 +9,7 @@ import {
   type ThemePatch,
 } from '@cogniplay/puzzle'
 import InstructionsPanel from './InstructionsPanel.vue'
+import { useTakeover } from './useTakeover'
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
@@ -53,12 +54,6 @@ const theme: ThemePatch = {
   'blocker-color': '#ffffff',
   'blocker-logo-mode': 'one',
 
-  // Panel
-  'panel-color': '#ffffff',
-  'panel-rim': '12',
-  'panel-radius': '24',
-  'panel-shadow': '0.28',
-
   // Tutorial overlay
   'tutorial-accent': '#009966',
   'tutorial-on-accent': '#1a1a1f',
@@ -80,6 +75,21 @@ const puzzle = ref<Puzzle | null>(null)
 const events = ref<string[]>([])
 const loading = ref(false)
 const fetchError = ref<string | null>(null)
+
+// On narrow screens the element claims every touch gesture inside its box,
+// so a finger landing on it cannot scroll the page. A tap layer covers the
+// stage there; tapping grows the stage to full screen.
+const stage = useTemplateRef<HTMLElement>('stage')
+const tapLayer = useTemplateRef<HTMLElement>('tapLayer')
+const closeButton = useTemplateRef<HTMLElement>('closeButton')
+// Keep in step with the tap layer's media query below.
+const DESKTOP_QUERY = '(min-width: 768px)'
+const { expanded, expand, collapse } = useTakeover(
+  stage,
+  tapLayer,
+  closeButton,
+  DESKTOP_QUERY,
+)
 
 function log(type: string, detail: unknown) {
   events.value.push(`${type} ${JSON.stringify(detail)}`)
@@ -119,30 +129,59 @@ async function loadToday() {
 
 <template>
   <main>
-    <h1>CogniPuzzle — npm package</h1>
+    <h1>CogniPuzzle - npm package</h1>
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element comes from
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
       typed.
     </p>
-    <div class="stage">
-      <cogniplay-puzzle
-        ref="puzzleEl"
-        :puzzle="puzzle"
-        :theme="theme"
-        show-timer
-      >
-        <div slot="fallback" class="fallback">
-          The puzzle could not be loaded. Please try again later.
+    <div class="stage-slot">
+      <div ref="stage" class="stage" :class="{ expanded }">
+        <!-- Rendered while collapsed too (hidden), so the help button
+             below can teleport in as the takeover opens. -->
+        <div v-show="expanded" class="takeover-header">
+          <span class="takeover-title">Today's puzzle</span>
+          <div class="takeover-actions">
+            <span id="takeover-help"></span>
+            <button
+              ref="closeButton"
+              class="button"
+              type="button"
+              @click="collapse()"
+            >
+              Close
+            </button>
+          </div>
         </div>
-      </cogniplay-puzzle>
-      <InstructionsPanel />
+        <cogniplay-puzzle
+          ref="puzzleEl"
+          :puzzle="puzzle"
+          :theme="theme"
+          show-timer
+        >
+          <div slot="fallback" class="fallback">
+            The puzzle could not be loaded. Please try again later.
+          </div>
+        </cogniplay-puzzle>
+        <button
+          v-show="!expanded"
+          ref="tapLayer"
+          class="tap-layer"
+          type="button"
+          @click="expand"
+        >
+          <span>Tap to play</span>
+        </button>
+        <Teleport to="#takeover-help" :disabled="!expanded" defer>
+          <InstructionsPanel />
+        </Teleport>
+      </div>
     </div>
-    <p>
-      <button :disabled="loading" @click="loadToday">
+    <p class="actions">
+      <button class="button" :disabled="loading" @click="loadToday">
         Reload today's puzzle
       </button>
-      <button @click="reset">Reset</button>
+      <button class="button" @click="reset">Reset</button>
     </p>
     <p v-if="loading" class="loading">Loading today's puzzle…</p>
     <p v-else-if="fetchError" class="fetch-error">
@@ -177,6 +216,92 @@ cogniplay-puzzle {
   flex: 1 1 auto;
   min-width: 0;
   height: 100%;
+}
+/* Full screen: the header takes a row and the board fills the rest. */
+.stage.expanded {
+  flex-direction: column;
+  border: 0;
+  background: #fff;
+}
+.stage.expanded cogniplay-puzzle {
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+}
+.takeover-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  border-bottom: 1px solid #e4e4e7;
+}
+.takeover-title {
+  font-weight: 600;
+  color: #27272a;
+}
+.takeover-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Inside the header the help button sits in the row, not pinned to the
+   stage corner. */
+.takeover-actions :deep(.help-button) {
+  position: static;
+}
+.button {
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #27272a;
+  font:
+    500 0.875rem system-ui,
+    sans-serif;
+  cursor: pointer;
+  transition: background-color 120ms;
+}
+.button:hover {
+  background: #f4f4f5;
+}
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.tap-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.tap-layer span {
+  display: block;
+  width: 100%;
+  padding: 2.5rem 0 0.75rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  color: #fff;
+  font:
+    600 0.875rem system-ui,
+    sans-serif;
+  text-align: center;
+}
+/* Same breakpoint as DESKTOP_QUERY in the script. */
+@media (min-width: 768px) {
+  .tap-layer {
+    display: none;
+  }
 }
 .fallback {
   padding: 2rem;

@@ -42,7 +42,7 @@ onUnmounted(() => window.removeEventListener('message', onMessage))
 
 <template>
   <main>
-    <h1>CogniPuzzle — iframe embed</h1>
+    <h1>CogniPuzzle - iframe embed</h1>
     <iframe
       v-if="EMBED_URL"
       :src="EMBED_URL"

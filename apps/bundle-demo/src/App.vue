@@ -71,7 +71,7 @@ async function loadToday() {
 
 <template>
   <main>
-    <h1>CogniPuzzle — JS bundle</h1>
+    <h1>CogniPuzzle - JS bundle</h1>
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element is registered by the CDN
       bundle loaded in <code>index.html</code>. The host page fetches the daily
