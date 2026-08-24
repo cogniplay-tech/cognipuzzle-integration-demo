@@ -7,8 +7,7 @@
     "dev:bundle": "pnpm --filter bundle-demo dev",
     "dev:npm": "pnpm --filter npm-demo dev",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "fixture": "node tools/generate-fixture.mjs"
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "prettier": "^3.9.5"

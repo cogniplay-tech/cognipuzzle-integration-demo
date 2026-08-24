@@ -2,11 +2,14 @@
 import { ref, onMounted } from 'vue'
 import InstructionsPanel from './InstructionsPanel.vue'
 
+// Registered by the CDN bundle loaded in index.html.
 declare global {
-  interface Window {
-    cogniplaySample: { puzzle: object }
+  const CogniplayPuzzle: {
+    wirePuzzleToDomain: (wire: unknown) => object
   }
 }
+
+const CONTENT_API = 'https://cognipuzzle-embed.com/embed/telex/daily/current'
 
 type PuzzleElement = HTMLElement & { reset: () => void }
 
@@ -24,6 +27,8 @@ const PUZZLE_EVENTS = [
 const puzzleEl = ref<PuzzleElement | null>(null)
 const puzzle = ref<object | null>(null)
 const events = ref<string[]>([])
+const loading = ref(false)
+const fetchError = ref<string | null>(null)
 
 function log(type: string, e: Event) {
   events.value.push(`${type} ${JSON.stringify((e as CustomEvent).detail)}`)
@@ -35,15 +40,26 @@ onMounted(() => {
   for (const type of PUZZLE_EVENTS) {
     el.addEventListener(type, (e) => log(type, e))
   }
-  puzzle.value = window.cogniplaySample.puzzle
+  void loadToday()
 })
-
-function feedSample() {
-  puzzle.value = window.cogniplaySample.puzzle
-}
 
 function reset() {
   puzzleEl.value?.reset()
+}
+
+async function loadToday() {
+  loading.value = true
+  fetchError.value = null
+  try {
+    const res = await fetch(CONTENT_API)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const body = (await res.json()) as { puzzle: unknown }
+    puzzle.value = CogniplayPuzzle.wirePuzzleToDomain(body.puzzle)
+  } catch (err) {
+    fetchError.value = err instanceof Error ? err.message : String(err)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -52,8 +68,10 @@ function reset() {
     <h1>CogniPuzzle — JS bundle</h1>
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element is registered by the CDN
-      bundle loaded in <code>index.html</code>. The host page supplies the
-      puzzle data as a property and listens to DOM events.
+      bundle loaded in <code>index.html</code>. The host page fetches the daily
+      puzzle, translates it with the bundle's
+      <code>CogniplayPuzzle.wirePuzzleToDomain</code>, supplies it as a property
+      and listens to DOM events.
     </p>
     <div class="stage">
       <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle">
@@ -64,8 +82,14 @@ function reset() {
       <InstructionsPanel />
     </div>
     <p>
-      <button @click="feedSample">Restore sample puzzle</button>
+      <button :disabled="loading" @click="loadToday">
+        Reload today's puzzle
+      </button>
       <button @click="reset">Reset</button>
+    </p>
+    <p v-if="loading" class="loading">Loading today's puzzle…</p>
+    <p v-else-if="fetchError" class="fetch-error">
+      Could not load today's puzzle ({{ fetchError }}).
     </p>
     <section>
       <h2>Event log</h2>
@@ -100,6 +124,12 @@ cogniplay-puzzle {
 .fallback {
   padding: 2rem;
   background: #fdecec;
+}
+.loading {
+  color: #71717a;
+}
+.fetch-error {
+  color: #a33;
 }
 ul {
   font-family: monospace;

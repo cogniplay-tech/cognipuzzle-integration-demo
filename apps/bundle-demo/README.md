@@ -4,18 +4,18 @@ Loads the self-contained CogniPuzzle bundle from the CDN with one `<script>` tag
 
 ## Footprint
 
-| File                                             | Role                                                    |
-| ------------------------------------------------ | ------------------------------------------------------- |
-| [`index.html`](index.html)                       | bundle `<script>` tag + local sample data               |
-| [`vite.config.ts`](vite.config.ts)               | `isCustomElement` hint for `cogniplay-puzzle`           |
-| [`public/sample-data.js`](public/sample-data.js) | host-supplied puzzle data                               |
-| [`src/App.vue`](src/App.vue)                     | renders the element, feeds `:puzzle`, listens to events |
+| File                               | Role                                                   |
+| ---------------------------------- | ------------------------------------------------------ |
+| [`index.html`](index.html)         | bundle `<script>` tag                                  |
+| [`vite.config.ts`](vite.config.ts) | `isCustomElement` hint for `cogniplay-puzzle`          |
+| [`src/App.vue`](src/App.vue)       | fetches the puzzle, feeds `:puzzle`, listens to events |
 
 [`src/InstructionsPanel.vue`](src/InstructionsPanel.vue) is **not** part of the integration — see below.
 
 ## Facts
 
-- The bundle self-registers `<cogniplay-puzzle>` on load.
+- The bundle self-registers `<cogniplay-puzzle>` on load and exposes a `CogniplayPuzzle` global with `defineCogniplayPuzzle` and `wirePuzzleToDomain`.
+- The puzzle comes from a live fetch of the content API; its `puzzle` field is a `WirePuzzle`, translated with `CogniplayPuzzle.wirePuzzleToDomain()` before it is assigned.
 - Version: this demo pins `/bundle/v1.7.0/`; `/bundle/v1/` is the major alias that follows deploys (5-min cache).
 - Feed the puzzle as a **property** (`:puzzle="…"`), not a JSON attribute.
 - Events are DOM `CustomEvent`s (payload in `event.detail`): `ready`, `started`, `piece-picked-up` / `piece-placed` / `piece-returned` / `piece-rotated`, `solved`, `error`. Attach listeners **before** setting `.puzzle` or the load's `ready` is missed.
