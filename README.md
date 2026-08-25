@@ -1,7 +1,7 @@
 # CogniPuzzle integration demo
 
 Three minimal Vue 3 apps, one per way of integrating CogniPuzzle puzzles. Each
-app contains everything its pattern needs and nothing more — copy the one that
+app contains everything its pattern needs and nothing more - copy the one that
 matches how you integrate.
 
 | App                                    | Pattern              | Dev port | Run               |
