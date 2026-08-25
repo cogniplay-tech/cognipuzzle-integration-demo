@@ -1,7 +1,7 @@
 # CogniPuzzle integration demo
 
 Three minimal Vue 3 apps, one per way of integrating CogniPuzzle puzzles. Each
-app contains everything its pattern needs and nothing more — copy the one that
+app contains everything its pattern needs and nothing more - copy the one that
 matches how you integrate.
 
 | App                                    | Pattern              | Dev port | Run               |
@@ -32,4 +32,12 @@ is gitignored.
 | Instructions UI  | included                | hand-built                   | hand-built                    |
 | Updates          | automatic               | pinned, or `v1` alias        | like any npm dependency       |
 
-Event names and payloads: see each app's README.
+Shared by the two element demos:
+
+- The puzzle is fed as a DOM **property** (`:puzzle="…"`), never a JSON
+  attribute. The `isCustomElement` hint in `vite.config.ts` stops Vue from
+  resolving `<cogniplay-puzzle>` as a component.
+- The element renders no instructions (its `tutorial` property needs
+  host-supplied strings), so `src/InstructionsPanel.vue` is the instructions UI,
+  copied from the hosted embed. The host page builds and owns it; it is not part
+  of the integration.
