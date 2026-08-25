@@ -38,5 +38,6 @@ Shared by the two element demos:
   attribute. The `isCustomElement` hint in `vite.config.ts` stops Vue from
   resolving `<cogniplay-puzzle>` as a component.
 - The element renders no instructions (its `tutorial` property needs
-  host-supplied strings), so `src/InstructionsPanel.vue` is reader chrome copied
-  from the hosted embed — the host's to own, and not part of the integration.
+  host-supplied strings), so `src/InstructionsPanel.vue` is the instructions UI,
+  copied from the hosted embed. The host page builds and owns it; it is not part
+  of the integration.
