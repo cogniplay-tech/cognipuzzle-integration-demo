@@ -13,12 +13,17 @@ matches how you integrate.
 ## Setup
 
 Every app reads the outlet and series slugs from `VITE_COGNIPLAY_OUTLET` and
-`VITE_COGNIPLAY_SERIES`:
+`VITE_COGNIPLAY_SERIES`, and the embed host (assets and content API) from
+`VITE_COGNIPLAY_EMBED_BASE_URL`:
 
-    cp .env.example .env.local   # then fill in both values
+    cp .env.example .env.local   # then fill in the outlet and series
 
 `.env.local` lives at the workspace root (each app's `envDir` points here) and
 is gitignored.
+
+The example pre-fills the production embed host; point
+`VITE_COGNIPLAY_EMBED_BASE_URL` (no trailing slash) at local or staging to
+test other puzzle assets and content.
 
 ## Comparison
 

@@ -22,10 +22,12 @@ interface CogniplayEnvelope {
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
+const BASE_URL: string | undefined = import.meta.env
+  .VITE_COGNIPLAY_EMBED_BASE_URL
 // The player's query param for the series is named `challenge`.
 const EMBED_URL =
-  OUTLET && SERIES
-    ? `https://cognipuzzle-embed.com/play.html?embed=${OUTLET}&challenge=${SERIES}`
+  OUTLET && SERIES && BASE_URL
+    ? `${BASE_URL}/play.html?embed=${OUTLET}&challenge=${SERIES}`
     : null
 
 const events = ref<string[]>([])
@@ -49,8 +51,9 @@ onUnmounted(() => window.removeEventListener('message', onMessage))
       title="CogniPuzzle daily puzzle"
     ></iframe>
     <p v-else class="config-error">
-      Set <code>VITE_COGNIPLAY_OUTLET</code> and
-      <code>VITE_COGNIPLAY_SERIES</code> in <code>.env.local</code>.
+      Set <code>VITE_COGNIPLAY_OUTLET</code>,
+      <code>VITE_COGNIPLAY_SERIES</code> and
+      <code>VITE_COGNIPLAY_EMBED_BASE_URL</code> in <code>.env.local</code>.
     </p>
     <section>
       <h2>Event log</h2>
