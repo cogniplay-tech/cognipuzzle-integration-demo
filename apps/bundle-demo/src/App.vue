@@ -11,7 +11,8 @@ declare global {
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
-const BASE_URL: string = import.meta.env.VITE_COGNIPLAY_EMBED_BASE_URL
+const BASE_URL: string | undefined = import.meta.env
+  .VITE_COGNIPLAY_EMBED_BASE_URL
 const CONTENT_API = `${BASE_URL}/embed/${OUTLET}/${SERIES}/current`
 
 type PuzzleElement = HTMLElement & { reset: () => void }
@@ -54,9 +55,9 @@ async function loadToday() {
   loading.value = true
   fetchError.value = null
   try {
-    if (!OUTLET || !SERIES)
+    if (!OUTLET || !SERIES || !BASE_URL)
       throw new Error(
-        'VITE_COGNIPLAY_OUTLET and VITE_COGNIPLAY_SERIES must be set',
+        'VITE_COGNIPLAY_OUTLET, VITE_COGNIPLAY_SERIES and VITE_COGNIPLAY_EMBED_BASE_URL must be set',
       )
     const res = await fetch(CONTENT_API)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
