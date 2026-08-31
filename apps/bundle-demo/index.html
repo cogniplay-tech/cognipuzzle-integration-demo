@@ -5,7 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CogniPuzzle - JS bundle demo</title>
-    <script src="https://cognipuzzle-embed.com/bundle/v1.7.0/cogniplay-puzzle.js"></script>
+    <!-- Vite replaces %VITE_COGNIPLAY_EMBED_BASE_URL% from the workspace-root
+         .env (overridable in .env.local). -->
+    <script src="%VITE_COGNIPLAY_EMBED_BASE_URL%/bundle/v1.7.0/cogniplay-puzzle.js"></script>
     <style>
       /* Demo backdrop: the element declares no background of its own, so this
          page colour shows through behind the puzzle. */

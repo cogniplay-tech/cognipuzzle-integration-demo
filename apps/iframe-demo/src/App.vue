@@ -22,10 +22,13 @@ interface CogniplayEnvelope {
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
+// Defaults to production in the workspace-root .env; override in .env.local
+// to test local or staging embeds.
+const BASE_URL: string = import.meta.env.VITE_COGNIPLAY_EMBED_BASE_URL
 // The player's query param for the series is named `challenge`.
 const EMBED_URL =
   OUTLET && SERIES
-    ? `https://cognipuzzle-embed.com/play.html?embed=${OUTLET}&challenge=${SERIES}`
+    ? `${BASE_URL}/play.html?embed=${OUTLET}&challenge=${SERIES}`
     : null
 
 const events = ref<string[]>([])

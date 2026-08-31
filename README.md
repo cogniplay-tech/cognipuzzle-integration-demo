@@ -20,6 +20,11 @@ Every app reads the outlet and series slugs from `VITE_COGNIPLAY_OUTLET` and
 `.env.local` lives at the workspace root (each app's `envDir` points here) and
 is gitignored.
 
+The embed host (assets and content API) comes from
+`VITE_COGNIPLAY_EMBED_BASE_URL`. The committed `.env` sets the production
+default; set the variable in `.env.local` (no trailing slash) to point the
+demos at local or staging puzzle assets and content.
+
 ## Comparison
 
 |                  | iframe                  | JS bundle                    | npm package                   |

@@ -11,7 +11,10 @@ declare global {
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
-const CONTENT_API = `https://cognipuzzle-embed.com/embed/${OUTLET}/${SERIES}/current`
+// Defaults to production in the workspace-root .env; override in .env.local
+// to test local or staging embeds.
+const BASE_URL: string = import.meta.env.VITE_COGNIPLAY_EMBED_BASE_URL
+const CONTENT_API = `${BASE_URL}/embed/${OUTLET}/${SERIES}/current`
 
 type PuzzleElement = HTMLElement & { reset: () => void }
 
