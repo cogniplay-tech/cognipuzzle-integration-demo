@@ -48,3 +48,7 @@ Shared by the two element demos:
   host-supplied strings), so the host page builds and owns the instructions
   UI.
 - `packages/demo-shared` is shared scaffolding, not part of the integration.
+- The mode toggle (`ModeToggle.vue`, `useColorMode.ts`) flips a `dark` class
+  on the root element. The `--demo-*` tokens in `styles.css` restyle the page,
+  and each app swaps the element's `theme` property between its light and dark
+  theme objects, which live in the app next to the element.

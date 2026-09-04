@@ -1,4 +1,6 @@
 export { default as InstructionsPanel } from './InstructionsPanel.vue'
 export { default as PuzzleStage } from './PuzzleStage.vue'
 export { default as EventLog } from './EventLog.vue'
+export { default as ModeToggle } from './ModeToggle.vue'
 export { useTakeover } from './useTakeover'
+export { useColorMode } from './useColorMode'

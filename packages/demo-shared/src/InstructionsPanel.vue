@@ -161,11 +161,11 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
   overflow-y: auto;
   padding: 1.25rem;
-  border-left: 1px solid #e4e4e7;
+  border-left: 1px solid var(--demo-border);
   font:
     14px/1.5 system-ui,
     sans-serif;
-  color: #27272a;
+  color: var(--demo-fg);
 }
 h2 {
   margin: 0 0 0.75rem;
@@ -177,11 +177,11 @@ h3 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #71717a;
+  color: var(--demo-muted);
 }
 p {
   margin: 0;
-  color: #52525b;
+  color: var(--demo-fg-secondary);
 }
 .controls {
   list-style: none;
@@ -200,7 +200,7 @@ p {
   height: 1.25rem;
   flex: none;
   margin-top: 0.125rem;
-  color: #71717a;
+  color: var(--demo-muted);
 }
 .help-button {
   position: absolute;
@@ -211,10 +211,10 @@ p {
   width: 2rem;
   height: 2rem;
   padding: 0;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--demo-border);
   border-radius: 50%;
-  background: #fff;
-  color: #52525b;
+  background: var(--demo-surface);
+  color: var(--demo-fg-secondary);
   cursor: pointer;
 }
 .help-button svg {
@@ -242,8 +242,8 @@ p {
   font:
     14px/1.5 system-ui,
     sans-serif;
-  color: #27272a;
-  background: #fff;
+  color: var(--demo-fg);
+  background: var(--demo-surface);
 }
 .card-header {
   display: flex;
@@ -259,7 +259,7 @@ p {
   background: none;
   padding: 0.25rem;
   font-size: 1rem;
-  color: #71717a;
+  color: var(--demo-muted);
   cursor: pointer;
 }
 </style>

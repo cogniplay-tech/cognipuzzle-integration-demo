@@ -1,7 +1,32 @@
+/* Page tokens. `.dark` on the root element switches the set; the puzzle
+   itself is recoloured by the app swapping the element's `theme` property. */
+:root {
+  color-scheme: light;
+  --demo-bg: #f4f4f5;
+  --demo-surface: #ffffff;
+  --demo-fg: #27272a;
+  --demo-fg-secondary: #52525b;
+  --demo-muted: #71717a;
+  --demo-border: color-mix(in srgb, var(--demo-fg), transparent 85%);
+  --demo-hover: color-mix(in srgb, var(--demo-fg), transparent 92%);
+  --demo-error: #a33;
+  --demo-error-bg: #fdecec;
+}
+:root.dark {
+  color-scheme: dark;
+  --demo-bg: #18181b;
+  --demo-surface: #27272a;
+  --demo-fg: #e4e4e7;
+  --demo-fg-secondary: #d4d4d8;
+  --demo-muted: #a1a1aa;
+  --demo-error: #f87171;
+  --demo-error-bg: #3b1f1f;
+}
 /* Demo backdrop: the element declares no background of its own, so this
    page colour shows through behind the puzzle. */
 body {
-  background: #f4f4f5;
+  background: var(--demo-bg);
+  color: var(--demo-fg);
 }
 main {
   max-width: 1200px;
@@ -12,10 +37,10 @@ main {
 .button {
   height: 2rem;
   padding: 0 0.75rem;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--demo-border);
   border-radius: 0.75rem;
-  background: #fff;
-  color: #27272a;
+  background: var(--demo-surface);
+  color: var(--demo-fg);
   font:
     500 0.875rem system-ui,
     sans-serif;
@@ -23,7 +48,7 @@ main {
   transition: background-color 120ms;
 }
 .button:hover {
-  background: #f4f4f5;
+  background: var(--demo-hover);
 }
 .button:disabled {
   opacity: 0.5;
@@ -35,11 +60,12 @@ main {
 }
 .fallback {
   padding: 2rem;
-  background: #fdecec;
+  background: var(--demo-error-bg);
+  color: var(--demo-fg);
 }
 .loading {
-  color: #71717a;
+  color: var(--demo-muted);
 }
 .fetch-error {
-  color: #a33;
+  color: var(--demo-error);
 }
