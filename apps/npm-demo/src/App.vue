@@ -117,8 +117,7 @@ async function loadToday() {
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element comes from
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
-      typed. The theme's colour values reference the page's own tokens, so the
-      mode toggle recolours the puzzle through CSS alone.
+      typed. The theme's colours reference the page's CSS tokens.
     </p>
     <PuzzleStage>
       <cogniplay-puzzle

@@ -1,5 +1,4 @@
-/* Page tokens. `.dark` on the root element switches the set; the puzzle
-   itself is recoloured by the app swapping the element's `theme` property. */
+/* `.dark` on the root element switches the set. */
 :root {
   color-scheme: light;
   --demo-bg: #f4f4f5;
@@ -34,8 +33,7 @@
   --demo-accent-2: #93c5fd;
   --demo-accent-3: #c4b5fd;
 }
-/* Demo backdrop: the element declares no background of its own, so this
-   page colour shows through behind the puzzle. */
+/* Shows through behind the puzzle, which has no background of its own. */
 body {
   background: var(--demo-bg);
   color: var(--demo-fg);

@@ -1,10 +1,8 @@
 # CogniPuzzle integration demo
 
 Three minimal Vue 3 apps, one per way of integrating CogniPuzzle puzzles. Each
-app holds its integration surface and nothing more; the two element demos take
-their page scaffolding from [`packages/demo-shared`](packages/demo-shared). Copy
-the app that matches how you integrate, plus the shared package if you want
-the same page around it.
+app holds only its integration; the two element demos share the rest of the
+page through [`packages/demo-shared`](packages/demo-shared).
 
 | App                                    | Pattern              | Dev port | Run               |
 | -------------------------------------- | -------------------- | -------- | ----------------- |
@@ -48,7 +46,6 @@ Shared by the two element demos:
   host-supplied strings), so the host page builds and owns the instructions
   UI.
 - `packages/demo-shared` is shared scaffolding, not part of the integration.
-- The mode toggle (`ModeToggle.vue`, `useColorMode.ts`) flips a `dark` class
-  on the root element. The `--demo-*` tokens in `styles.css` restyle the page
-  and the puzzle: each app's `theme` object references them for its colour
-  knobs, so the puzzle follows the page through the cascade.
+- Light/dark mode: `ModeToggle.vue` toggles a `dark` class on the root
+  element, the `--demo-*` tokens in `styles.css` switch with it, and each app's
+  `theme` object references them.
