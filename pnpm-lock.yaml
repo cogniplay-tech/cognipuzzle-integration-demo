@@ -68,8 +68,8 @@ importers:
   apps/npm-demo:
     dependencies:
       '@cogniplay/puzzle':
-        specifier: 0.8.0
-        version: 0.8.0
+        specifier: 0.9.0
+        version: 0.9.0
       demo-shared:
         specifier: workspace:*
         version: link:../../packages/demo-shared
@@ -130,8 +130,8 @@ packages:
     resolution: {integrity: sha512-4zBIxpPzowiZpusoFkyGVwakdRJUyuH5PxQ/PrqghfdFWWasvnCdPfQXHrenDai+gyLARulZjZowCOj6fjT4pA==}
     engines: {node: '>=6.9.0'}
 
-  '@cogniplay/puzzle@0.8.0':
-    resolution: {integrity: sha512-QEdxhyDsgTwimsLF2FppxJS5qMiEyvJylrmb27MiuBAlYL2wSY+Gex09uy4JYpEpiUDFwcgX62v8mL1j3iwebw==}
+  '@cogniplay/puzzle@0.9.0':
+    resolution: {integrity: sha512-Ukt9lHT5O6m17rjH6PsE/fKiZHm551EZYE05e2A1rgMFar11kErSEGcIo+JM73DWtY9x9/clk7XWy55zVjBPbw==}
 
   '@emnapi/core@1.11.1':
     resolution: {integrity: sha512-RSvbQmHzdKzNsLYa/wHrbc3KN4sYLKAdPZxqiM2HATqv/SBk2/ENSHpvXGaLOMcsAyz0poEGqkmmKYG3OWiJEQ==}
@@ -551,7 +551,7 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@cogniplay/puzzle@0.8.0': {}
+  '@cogniplay/puzzle@0.9.0': {}
 
   '@emnapi/core@1.11.1':
     dependencies:

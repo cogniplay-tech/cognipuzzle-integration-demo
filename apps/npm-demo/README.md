@@ -1,6 +1,6 @@
 # npm-demo
 
-Installs `@cogniplay/puzzle` from the private registry — full TypeScript types, customer-controlled versioning. The integration is [`package.json`](package.json), the `defineCogniplayPuzzle()` call in [`src/main.ts`](src/main.ts), the `isCustomElement` hint in [`vite.config.ts`](vite.config.ts), and [`src/App.vue`](src/App.vue) with its light and dark theme objects.
+Installs `@cogniplay/puzzle` from the private registry — full TypeScript types, customer-controlled versioning. The integration is [`package.json`](package.json), the `defineCogniplayPuzzle()` call in [`src/main.ts`](src/main.ts), the `isCustomElement` hint in [`vite.config.ts`](vite.config.ts), and [`src/App.vue`](src/App.vue) with its `theme` object, whose colour values reference the page's `--demo-*` tokens.
 The instructions UI, the mobile takeover, and the page styles come from `demo-shared` - they are not part of the puzzle widget.
 
 ## Registry
