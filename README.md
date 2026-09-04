@@ -2,8 +2,8 @@
 
 Three minimal Vue 3 apps, one per way of integrating CogniPuzzle puzzles. Each
 app holds its integration surface and nothing more; the two element demos take
-their page furniture from [`packages/demo-shared`](packages/demo-shared). Copy
-the app that matches how you integrate, plus the furniture package if you want
+their page scaffolding from [`packages/demo-shared`](packages/demo-shared). Copy
+the app that matches how you integrate, plus the shared package if you want
 the same page around it.
 
 | App                                    | Pattern              | Dev port | Run               |
@@ -47,8 +47,4 @@ Shared by the two element demos:
 - The element renders no instructions (its `tutorial` property needs
   host-supplied strings), so the host page builds and owns the instructions
   UI.
-- `packages/demo-shared` is demo furniture, not part of the integration: the
-  instructions UI copied from the hosted embed (`InstructionsPanel.vue`), the
-  stage with the mobile takeover (`PuzzleStage.vue`, `useTakeover.ts`), the
-  event log (`EventLog.vue`), and the page stylesheet (`styles.css`). Each
-  element demo depends on it as the workspace package `demo-shared`.
+- `packages/demo-shared` is shared scaffolding, not part of the integration.
