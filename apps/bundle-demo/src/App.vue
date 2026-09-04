@@ -127,14 +127,6 @@ async function loadToday() {
 <template>
   <main>
     <h1>CogniPuzzle - JS bundle</h1>
-    <p>
-      The <code>&lt;cogniplay-puzzle&gt;</code> element is registered by the CDN
-      bundle loaded in <code>index.html</code>. The host page fetches the daily
-      puzzle, translates it with the bundle's
-      <code>CogniplayPuzzle.wirePuzzleToDomain</code>, supplies it as a property
-      and listens to DOM events. The theme's colours reference the page's CSS
-      tokens.
-    </p>
     <PuzzleStage>
       <cogniplay-puzzle
         ref="puzzleEl"

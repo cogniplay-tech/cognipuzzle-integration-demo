@@ -114,11 +114,6 @@ async function loadToday() {
 <template>
   <main>
     <h1>CogniPuzzle - npm package</h1>
-    <p>
-      The <code>&lt;cogniplay-puzzle&gt;</code> element comes from
-      <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
-      typed. The theme's colours reference the page's CSS tokens.
-    </p>
     <PuzzleStage>
       <cogniplay-puzzle
         ref="puzzleEl"
