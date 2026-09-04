@@ -8,7 +8,7 @@ import {
   type CogniplayPuzzleElement,
   type ThemePatch,
 } from '@cogniplay/puzzle'
-import { PuzzleStage, EventLog } from 'demo-shared'
+import { PuzzleStage, EventLog, ModeToggle, useColorMode } from 'demo-shared'
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
@@ -16,9 +16,7 @@ const BASE_URL: string | undefined = import.meta.env
   .VITE_COGNIPLAY_EMBED_BASE_URL
 const CONTENT_API = `${BASE_URL}/embed/${OUTLET}/${SERIES}/current`
 
-// Outlet look. Every knob lives here, including timer-* and
-// tutorial-*, and reaches the element through its `theme` property.
-const theme: ThemePatch = {
+const lightTheme: ThemePatch = {
   // Piece palette (slots 1-10 = author order a-j)
   'piece-1-color': '#009966',
   'piece-2-color': '#009966',
@@ -71,6 +69,30 @@ const theme: ThemePatch = {
   'timer-solved': '#009966',
 }
 
+const darkTheme: ThemePatch = {
+  ...lightTheme,
+  'piece-1-color': '#34d399',
+  'piece-2-color': '#34d399',
+  'piece-3-color': '#93c5fd',
+  'piece-4-color': '#93c5fd',
+  'piece-5-color': '#c4b5fd',
+  'piece-6-color': '#c4b5fd',
+  'piece-7-color': '#c4b5fd',
+  'piece-8-color': '#93c5fd',
+  'piece-9-color': '#93c5fd',
+  'piece-10-color': '#93c5fd',
+  'preview-valid': 'rgba(52, 211, 153, 0.3)',
+  'board-cell-color': '#2b3442',
+  'board-outline-color': '#8593a6',
+  'blocker-color': '#3f3f46',
+  'tutorial-accent': '#34d399',
+  'timer-bg': 'rgba(255, 255, 255, 0.16)',
+  'timer-text': '#e4e4e7',
+  'timer-solved': '#34d399',
+}
+
+const { dark } = useColorMode()
+
 const puzzleEl = useTemplateRef<CogniplayPuzzleElement>('puzzleEl')
 const puzzle = ref<Puzzle | null>(null)
 const events = ref<string[]>([])
@@ -119,13 +141,14 @@ async function loadToday() {
     <p>
       The <code>&lt;cogniplay-puzzle&gt;</code> element comes from
       <code>@cogniplay/puzzle</code>, registered once at startup. Usage is fully
-      typed.
+      typed. The mode toggle swaps the object bound to the element's
+      <code>theme</code> property.
     </p>
     <PuzzleStage>
       <cogniplay-puzzle
         ref="puzzleEl"
         :puzzle="puzzle"
-        :theme="theme"
+        :theme="dark ? darkTheme : lightTheme"
         show-timer
       >
         <div slot="fallback" class="fallback">
@@ -138,6 +161,7 @@ async function loadToday() {
         Reload today's puzzle
       </button>
       <button class="button" @click="reset">Reset</button>
+      <ModeToggle />
     </p>
     <p v-if="loading" class="loading">Loading today's puzzle…</p>
     <p v-else-if="fetchError" class="fetch-error">
