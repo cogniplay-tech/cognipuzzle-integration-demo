@@ -61,6 +61,7 @@ main {
 .fallback {
   padding: 2rem;
   background: var(--demo-error-bg);
+  color: var(--demo-fg);
 }
 .loading {
   color: var(--demo-muted);
