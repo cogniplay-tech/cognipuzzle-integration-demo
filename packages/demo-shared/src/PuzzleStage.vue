@@ -3,9 +3,8 @@ import { useTemplateRef } from 'vue'
 import InstructionsPanel from './InstructionsPanel.vue'
 import { useTakeover } from './useTakeover'
 
-// On narrow screens the element claims every touch gesture inside its box,
-// so a finger landing on it cannot scroll the page. A tap layer covers the
-// stage there; tapping grows the stage to full screen.
+// The element claims every touch inside its box, so on narrow screens a tap
+// layer covers it and expands the stage to full screen.
 const stage = useTemplateRef<HTMLElement>('stage')
 const tapLayer = useTemplateRef<HTMLElement>('tapLayer')
 const closeButton = useTemplateRef<HTMLElement>('closeButton')
@@ -22,8 +21,7 @@ const { expanded, expand, collapse } = useTakeover(
 <template>
   <div class="stage-slot">
     <div ref="stage" class="stage" :class="{ expanded }">
-      <!-- Rendered while collapsed too (hidden), so the help button
-           below can teleport in as the takeover opens. -->
+      <!-- Kept in the DOM while collapsed so the help button can teleport in. -->
       <div v-show="expanded" class="takeover-header">
         <span class="takeover-title">Today's puzzle</span>
         <div class="takeover-actions">
@@ -56,8 +54,7 @@ const { expanded, expand, collapse } = useTakeover(
 </template>
 
 <style scoped>
-/* The element measures its own box to lay out, so it needs a definite height.
-   A min-height alone collapses the board. */
+/* The element needs a definite height; min-height alone collapses it. */
 .stage {
   position: relative;
   display: flex;
@@ -99,8 +96,8 @@ const { expanded, expand, collapse } = useTakeover(
   align-items: center;
   gap: 0.5rem;
 }
-/* Inside the header the help button sits in the row, not pinned to the
-   stage corner. */
+/* In the header the help button flows in the row instead of pinning to the
+   corner. */
 .takeover-actions :deep(.help-button) {
   position: static;
 }

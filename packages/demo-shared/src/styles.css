@@ -1,5 +1,4 @@
-/* Page tokens. `.dark` on the root element switches the set; the puzzle
-   itself is recoloured by the app swapping the element's `theme` property. */
+/* `.dark` on the root element switches the set. */
 :root {
   color-scheme: light;
   --demo-bg: #f4f4f5;
@@ -11,6 +10,12 @@
   --demo-hover: color-mix(in srgb, var(--demo-fg), transparent 92%);
   --demo-error: #a33;
   --demo-error-bg: #fdecec;
+  --demo-board: #808080;
+  --demo-board-outline: #515151;
+  --demo-blocker: #ffffff;
+  --demo-accent-1: #009966;
+  --demo-accent-2: #113355;
+  --demo-accent-3: #7b52c2;
 }
 :root.dark {
   color-scheme: dark;
@@ -21,9 +26,14 @@
   --demo-muted: #a1a1aa;
   --demo-error: #f87171;
   --demo-error-bg: #3b1f1f;
+  --demo-board: #2b3442;
+  --demo-board-outline: #8593a6;
+  --demo-blocker: #9aa8bd;
+  --demo-accent-1: #34d399;
+  --demo-accent-2: #93c5fd;
+  --demo-accent-3: #c4b5fd;
 }
-/* Demo backdrop: the element declares no background of its own, so this
-   page colour shows through behind the puzzle. */
+/* Shows through behind the puzzle, which has no background of its own. */
 body {
   background: var(--demo-bg);
   color: var(--demo-fg);

@@ -1,11 +1,11 @@
 # demo-shared
 
-Code shared by the two element demos. It is not part of the CogniPuzzle integration; the root README explains the split.
+Code shared by the two element demos; not part of the integration.
 
-- `PuzzleStage.vue` — the bordered stage around `<cogniplay-puzzle>` with the mobile takeover, tap layer, and teleported instructions panel. The element goes in its default slot.
-- `InstructionsPanel.vue` — the "How to play" aside on wide viewports, a help button and card on narrow ones.
-- `EventLog.vue` — the event list, fed through its `entries` prop.
-- `useTakeover.ts` — grows an element to full screen and back.
-- `ModeToggle.vue` — the light/dark button.
-- `useColorMode.ts` — the shared `dark` state the toggle flips, mirrored as a `dark` class on the root element.
-- `styles.css` — the `--demo-*` colour tokens for light and dark, page backdrop, `main`, and the `.button`, `.actions`, `.loading`, `.fetch-error`, and `.fallback` classes. Import it once from the app's entry point.
+- `PuzzleStage.vue` — stage with the mobile takeover; the element goes in its slot
+- `InstructionsPanel.vue` — how-to-play panel
+- `EventLog.vue` — event list
+- `useTakeover.ts` — full-screen takeover behaviour
+- `ModeToggle.vue` — light/dark button
+- `useColorMode.ts` — the `dark` state behind it
+- `styles.css` — `--demo-*` tokens and page styles; import once per app
