@@ -50,6 +50,7 @@ const theme = {
 
   // Blockers
   'blocker-color': 'var(--demo-blocker)',
+  'blocker-outline-color': 'var(--demo-board-outline)',
   'blocker-logo-mode': 'one',
 
   // Tutorial overlay
