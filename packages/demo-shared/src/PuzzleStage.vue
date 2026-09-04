@@ -62,7 +62,7 @@ const { expanded, expand, collapse } = useTakeover(
   position: relative;
   display: flex;
   height: 360px;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--demo-border);
 }
 :slotted(cogniplay-puzzle) {
   display: block;
@@ -74,7 +74,7 @@ const { expanded, expand, collapse } = useTakeover(
 .stage.expanded {
   flex-direction: column;
   border: 0;
-  background: #fff;
+  background: var(--demo-bg);
 }
 .stage.expanded :slotted(cogniplay-puzzle) {
   flex: 1 1 0;
@@ -88,11 +88,11 @@ const { expanded, expand, collapse } = useTakeover(
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
-  border-bottom: 1px solid #e4e4e7;
+  border-bottom: 1px solid var(--demo-border);
 }
 .takeover-title {
   font-weight: 600;
-  color: #27272a;
+  color: var(--demo-fg);
 }
 .takeover-actions {
   display: flex;

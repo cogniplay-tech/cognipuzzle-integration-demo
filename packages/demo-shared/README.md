@@ -1,6 +1,6 @@
 # demo-shared
 
-Page furniture shared by the two element demos. It is not part of the CogniPuzzle integration; the root README explains the split.
+Code shared by the two element demos. It is not part of the CogniPuzzle integration; the root README explains the split.
 
 - `PuzzleStage.vue` — the bordered stage around `<cogniplay-puzzle>` with the mobile takeover, tap layer, and teleported instructions panel. The element goes in its default slot.
 - `InstructionsPanel.vue` — the "How to play" aside on wide viewports, a help button and card on narrow ones.
