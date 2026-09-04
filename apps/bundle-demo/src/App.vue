@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import InstructionsPanel from './InstructionsPanel.vue'
+import { InstructionsPanel, EventLog } from 'demo-shared'
 
 // Registered by the CDN bundle loaded in index.html.
 declare global {
@@ -99,12 +99,7 @@ async function loadToday() {
     <p v-else-if="fetchError" class="fetch-error">
       Could not load today's puzzle ({{ fetchError }}).
     </p>
-    <section>
-      <h2>Event log</h2>
-      <ul>
-        <li v-for="(entry, i) in events" :key="i">{{ entry }}</li>
-      </ul>
-    </section>
+    <EventLog :entries="events" />
   </main>
 </template>
 
@@ -138,8 +133,5 @@ cogniplay-puzzle {
 }
 .fetch-error {
   color: #a33;
-}
-ul {
-  font-family: monospace;
 }
 </style>

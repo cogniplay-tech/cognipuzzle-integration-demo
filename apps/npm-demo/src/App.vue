@@ -8,8 +8,7 @@ import {
   type CogniplayPuzzleElement,
   type ThemePatch,
 } from '@cogniplay/puzzle'
-import InstructionsPanel from './InstructionsPanel.vue'
-import { useTakeover } from './useTakeover'
+import { InstructionsPanel, EventLog, useTakeover } from 'demo-shared'
 
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
@@ -189,12 +188,7 @@ async function loadToday() {
     <p v-else-if="fetchError" class="fetch-error">
       Could not load today's puzzle ({{ fetchError }}).
     </p>
-    <section>
-      <h2>Event log</h2>
-      <ul>
-        <li v-for="(entry, i) in events" :key="i">{{ entry }}</li>
-      </ul>
-    </section>
+    <EventLog :entries="events" />
   </main>
 </template>
 
@@ -314,8 +308,5 @@ cogniplay-puzzle {
 }
 .fetch-error {
   color: #a33;
-}
-ul {
-  font-family: monospace;
 }
 </style>
