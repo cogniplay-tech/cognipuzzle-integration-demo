@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { InstructionsPanel, EventLog } from 'demo-shared'
+import { PuzzleStage, EventLog } from 'demo-shared'
 
 // Registered by the CDN bundle loaded in index.html.
 declare global {
@@ -81,19 +81,18 @@ async function loadToday() {
       <code>CogniplayPuzzle.wirePuzzleToDomain</code>, supplies it as a property
       and listens to DOM events.
     </p>
-    <div class="stage">
-      <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle">
+    <PuzzleStage>
+      <cogniplay-puzzle ref="puzzleEl" :puzzle="puzzle" show-timer>
         <div slot="fallback" class="fallback">
           The puzzle could not be loaded. Please try again later.
         </div>
       </cogniplay-puzzle>
-      <InstructionsPanel />
-    </div>
-    <p>
-      <button :disabled="loading" @click="loadToday">
+    </PuzzleStage>
+    <p class="actions">
+      <button class="button" :disabled="loading" @click="loadToday">
         Reload today's puzzle
       </button>
-      <button @click="reset">Reset</button>
+      <button class="button" @click="reset">Reset</button>
     </p>
     <p v-if="loading" class="loading">Loading today's puzzle…</p>
     <p v-else-if="fetchError" class="fetch-error">
@@ -102,36 +101,3 @@ async function loadToday() {
     <EventLog :entries="events" />
   </main>
 </template>
-
-<style scoped>
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-  font-family: system-ui, sans-serif;
-}
-/* The element measures its own box to lay out, so it needs a definite height.
-   A min-height alone collapses the board. */
-.stage {
-  position: relative;
-  display: flex;
-  height: 360px;
-  border: 1px solid #e4e4e7;
-}
-cogniplay-puzzle {
-  display: block;
-  flex: 1 1 auto;
-  min-width: 0;
-  height: 100%;
-}
-.fallback {
-  padding: 2rem;
-  background: #fdecec;
-}
-.loading {
-  color: #71717a;
-}
-.fetch-error {
-  color: #a33;
-}
-</style>
