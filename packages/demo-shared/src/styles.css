@@ -1,0 +1,45 @@
+/* Demo backdrop: the element declares no background of its own, so this
+   page colour shows through behind the puzzle. */
+body {
+  background: #f4f4f5;
+}
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: system-ui, sans-serif;
+}
+.button {
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #27272a;
+  font:
+    500 0.875rem system-ui,
+    sans-serif;
+  cursor: pointer;
+  transition: background-color 120ms;
+}
+.button:hover {
+  background: #f4f4f5;
+}
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.fallback {
+  padding: 2rem;
+  background: #fdecec;
+}
+.loading {
+  color: #71717a;
+}
+.fetch-error {
+  color: #a33;
+}

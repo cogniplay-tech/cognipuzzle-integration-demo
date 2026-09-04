@@ -14,6 +14,9 @@ importers:
 
   apps/bundle-demo:
     dependencies:
+      demo-shared:
+        specifier: workspace:*
+        version: link:../../packages/demo-shared
       vue:
         specifier: ^3.5.39
         version: 3.5.39(typescript@6.0.3)
@@ -67,6 +70,9 @@ importers:
       '@cogniplay/puzzle':
         specifier: 0.8.0
         version: 0.8.0
+      demo-shared:
+        specifier: workspace:*
+        version: link:../../packages/demo-shared
       vue:
         specifier: ^3.5.39
         version: 3.5.39(typescript@6.0.3)
@@ -86,6 +92,21 @@ importers:
       vite:
         specifier: ^8.1.1
         version: 8.1.4(@types/node@24.13.3)
+      vue-tsc:
+        specifier: ^3.3.5
+        version: 3.3.7(typescript@6.0.3)
+
+  packages/demo-shared:
+    devDependencies:
+      '@vue/tsconfig':
+        specifier: ^0.9.1
+        version: 0.9.1(typescript@6.0.3)(vue@3.5.39(typescript@6.0.3))
+      typescript:
+        specifier: ~6.0.2
+        version: 6.0.3
+      vue:
+        specifier: ^3.5.39
+        version: 3.5.39(typescript@6.0.3)
       vue-tsc:
         specifier: ^3.3.5
         version: 3.3.7(typescript@6.0.3)

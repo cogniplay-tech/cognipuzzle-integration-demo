@@ -1,8 +1,10 @@
 # CogniPuzzle integration demo
 
 Three minimal Vue 3 apps, one per way of integrating CogniPuzzle puzzles. Each
-app contains everything its pattern needs and nothing more - copy the one that
-matches how you integrate.
+app holds its integration surface and nothing more; the two element demos take
+their page scaffolding from [`packages/demo-shared`](packages/demo-shared). Copy
+the app that matches how you integrate, plus the shared package if you want
+the same page around it.
 
 | App                                    | Pattern              | Dev port | Run               |
 | -------------------------------------- | -------------------- | -------- | ----------------- |
@@ -34,7 +36,7 @@ test other puzzle assets and content.
 | Data feed        | platform-resolved       | host-supplied and/or fetched | host-supplied and/or fetched  |
 | TypeScript types | —                       | —                            | full (`Puzzle`, `WirePuzzle`) |
 | Events           | `postMessage` envelopes | DOM `CustomEvent`s           | DOM `CustomEvent`s            |
-| Instructions UI  | included                | hand-built                   | hand-built                    |
+| Instructions UI  | included                | `demo-shared`                | `demo-shared`                 |
 | Updates          | automatic               | pinned, or `v1` alias        | like any npm dependency       |
 
 Shared by the two element demos:
@@ -43,6 +45,6 @@ Shared by the two element demos:
   attribute. The `isCustomElement` hint in `vite.config.ts` stops Vue from
   resolving `<cogniplay-puzzle>` as a component.
 - The element renders no instructions (its `tutorial` property needs
-  host-supplied strings), so `src/InstructionsPanel.vue` is the instructions UI,
-  copied from the hosted embed. The host page builds and owns it; it is not part
-  of the integration.
+  host-supplied strings), so the host page builds and owns the instructions
+  UI.
+- `packages/demo-shared` is shared scaffolding, not part of the integration.

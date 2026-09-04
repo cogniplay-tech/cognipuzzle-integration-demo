@@ -19,4 +19,5 @@ jobs:
         run: echo "//npm.cloudsmith.io/cogniplay/cognipuzzle/:_authToken=${{ secrets.CLOUDSMITH_TOKEN }}" >> .npmrc
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
+      - run: pnpm typecheck
       - run: pnpm -r build
