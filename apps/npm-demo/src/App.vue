@@ -49,6 +49,9 @@ const theme: ThemePatch = {
 
   'preview-valid': 'transparent',
   'preview-invalid': 'transparent',
+  // Swap the two lines above for these to keep the drop-target tint as well:
+  // 'preview-valid': 'rgba(136, 199, 97, 0.30)',
+  // 'preview-invalid': 'rgba(236, 98, 92, 0.30)',
   'drag-invalid-darken': '0.3',
 
   'tutorial-accent': 'var(--demo-piece-1)',
