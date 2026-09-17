@@ -50,6 +50,32 @@ Shared by the two element demos:
   element, the `--demo-*` tokens in `styles.css` switch with it, and each app's
   `theme` object references them.
 
+## Events
+
+`ready`, `started`, `piece-picked-up`, `piece-placed`, `piece-returned`,
+`piece-rotated`, `solved`, `error`, `tutorial-complete`, `tutorial-exit`. All
+`CustomEvent`s that bubble and cross the shadow boundary, typed through
+`CogniplayPuzzleEventMap`. Attach listeners before assigning `.puzzle`, or the
+load's `ready` is missed.
+
+Every piece event carries `placed`, `total`, `state`, and:
+
+| Field     | On               | Value                                                                          |
+| --------- | ---------------- | ------------------------------------------------------------------------------ |
+| `pieceId` | all              | absent for the legacy variants, whose moves are taps                           |
+| `source`  | all              | `"tray"` or `"board"`, where the piece was when the gesture began              |
+| `solves`  | `piece-placed`   | `true` on the placement that solved the puzzle, so a `solved` event follows it |
+| `release` | `piece-returned` | how a drag that did not place ended                                            |
+
+`release` values, ranked by how much of the release was over the board:
+`"on-board"` (pointer within a board cell), `"near-board"` (pointer off it,
+piece outline still overlapping), `"off-board"`, `"cancelled"` (Escape, lost
+pointer, drag recovery). `elapsedMs` is on `solved` only, which also fires
+with no piece event in front of it.
+
+Authoritative: the package README and
+[the events reference](https://docs.cognipuzzle.com/reference/events/).
+
 ## Theme knobs
 
 The element is themed through its `theme` property, a plain object keyed by

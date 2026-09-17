@@ -77,7 +77,8 @@ const loading = ref(false)
 const fetchError = ref<string | null>(null)
 
 function log(type: string, detail: unknown) {
-  events.value.push(`${type} ${JSON.stringify(detail)}`)
+  const { state: _state, ...rest } = (detail ?? {}) as Record<string, unknown>
+  events.value.push(`${type} ${JSON.stringify(rest)}`)
 }
 
 onMounted(() => {
