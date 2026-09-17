@@ -1,4 +1,5 @@
 import 'demo-shared/styles.css'
+import './palette.css'
 import { createApp } from 'vue'
 import { defineCogniplayPuzzle } from '@cogniplay/puzzle'
 import App from './App.vue'

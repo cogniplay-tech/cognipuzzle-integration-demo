@@ -16,46 +16,42 @@ const BASE_URL: string | undefined = import.meta.env
   .VITE_COGNIPLAY_EMBED_BASE_URL
 const CONTENT_API = `${BASE_URL}/embed/${OUTLET}/${SERIES}/current`
 
-const theme: ThemePatch = {
-  // Piece palette (slots 1-10 = author order a-j)
-  'piece-1-color': 'var(--demo-accent-1)',
-  'piece-2-color': 'var(--demo-accent-1)',
-  'piece-3-color': 'var(--demo-accent-2)',
-  'piece-4-color': 'var(--demo-accent-2)',
-  'piece-5-color': 'var(--demo-accent-3)',
-  'piece-6-color': 'var(--demo-accent-3)',
-  'piece-7-color': 'var(--demo-accent-3)',
-  'piece-8-color': 'var(--demo-accent-2)',
-  'piece-9-color': 'var(--demo-accent-2)',
-  'piece-10-color': 'var(--demo-accent-2)',
+const PALETTE: ThemePatch = {
+  'piece-1-color': 'var(--demo-piece-4)',
+  'piece-2-color': 'var(--demo-piece-1)',
+  'piece-3-color': 'var(--demo-piece-2)',
+  'piece-4-color': 'var(--demo-piece-7)',
+  'piece-5-color': 'var(--demo-piece-6)',
+  'piece-6-color': 'var(--demo-piece-1)',
+  'piece-7-color': 'var(--demo-piece-5)',
+  'piece-8-color': 'var(--demo-piece-2)',
+  'piece-9-color': 'var(--demo-piece-3)',
+  'piece-10-color': 'var(--demo-piece-3)',
+}
 
-  // Pieces
-  'piece-outline': 'cell',
-  'piece-rim': 'cell',
+const theme: ThemePatch = {
+  ...PALETTE,
+
+  'piece-fill': 'cell',
+  gap: '0.125',
+  'corner-radius': '0.125',
+  'piece-inner-shadow': '0.1',
+  'piece-inner-shadow-width': '0.3125',
+
+  'piece-outline': 'none',
+  'piece-rim': 'none',
   'piece-sheen': '0',
   'piece-shadow': '0',
-  'preview-valid': 'color-mix(in srgb, var(--demo-accent-1), transparent 70%)',
-  'preview-invalid': 'rgba(204, 0, 0, 0.3)',
-
-  // Board and shared geometry
+  'board-outline': 'none',
+  'board-cell-rim-color': 'none',
   'board-cell-color': 'var(--demo-board)',
-  'board-outline': 'cell',
-  'board-outline-color': 'var(--demo-board-outline)',
-  gap: '0',
-  'corner-radius': '0.12',
-  'outline-width': '1.5',
-  'rim-width': '0.3',
-  'rim-shadow-style': 'edge',
-  'rim-shadow': '0.3',
-  'rim-shadow-softness': '0.1',
-
-  // Blockers
   'blocker-color': 'var(--demo-blocker)',
-  'blocker-outline-color': 'var(--demo-board-outline)',
-  'blocker-logo-mode': 'one',
 
-  // Tutorial overlay
-  'tutorial-accent': 'var(--demo-accent-1)',
+  'preview-valid': 'transparent',
+  'preview-invalid': 'transparent',
+  'drag-invalid-darken': '0.3',
+
+  'tutorial-accent': 'var(--demo-piece-1)',
   'tutorial-on-accent': '#1a1a1f',
   'tutorial-bg': '#32323a',
   'tutorial-text': '#f5f5f7',
@@ -64,10 +60,9 @@ const theme: ThemePatch = {
   'tutorial-scrim': '#1a1a1f',
   'tutorial-radius': '1rem',
 
-  // Timer overlay
   'timer-bg': 'color-mix(in srgb, var(--demo-fg), transparent 84%)',
   'timer-text': 'var(--demo-fg)',
-  'timer-solved': 'var(--demo-accent-1)',
+  'timer-solved': 'var(--demo-piece-4)',
 }
 
 const puzzleEl = useTemplateRef<CogniplayPuzzleElement>('puzzleEl')
