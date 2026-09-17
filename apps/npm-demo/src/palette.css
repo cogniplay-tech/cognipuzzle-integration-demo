@@ -1,0 +1,18 @@
+:root {
+  --demo-piece-1: #2299ee;
+  --demo-piece-2: #cccc00;
+  --demo-piece-3: #ff33cc;
+  --demo-piece-4: #00aa66;
+  --demo-piece-5: #ee8800;
+  --demo-piece-6: #ff2233;
+  --demo-piece-7: #aa66ff;
+}
+:root.dark {
+  --demo-piece-1: #66bbee;
+  --demo-piece-2: #ccee22;
+  --demo-piece-3: #ee66cc;
+  --demo-piece-4: #00ee99;
+  --demo-piece-5: #ffaa11;
+  --demo-piece-6: #ff5555;
+  --demo-piece-7: #bb88ff;
+}
