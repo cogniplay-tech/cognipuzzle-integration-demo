@@ -89,7 +89,9 @@ const loading = ref(false)
 const fetchError = ref<string | null>(null)
 
 function log(type: string, e: Event) {
-  events.value.push(`${type} ${JSON.stringify((e as CustomEvent).detail)}`)
+  const detail = (e as CustomEvent).detail ?? {}
+  const { state: _state, ...rest } = detail as Record<string, unknown>
+  events.value.push(`${type} ${JSON.stringify(rest)}`)
 }
 
 // Attach listeners before assigning `.puzzle`, so the load's `ready` is caught.
