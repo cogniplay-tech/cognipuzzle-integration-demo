@@ -51,6 +51,8 @@ const theme: ThemePatch = {
   'border-width': '0.2076',
   'outline-width': '0.5',
   'face-shadow': '0',
+  'tray-scale': '0.7',
+  'board-shrink': '0.1',
 
   // Blockers
   'blocker-color': '#6f858e',
