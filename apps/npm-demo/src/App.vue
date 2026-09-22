@@ -17,48 +17,53 @@ const BASE_URL: string | undefined = import.meta.env
 const CONTENT_API = `${BASE_URL}/embed/${OUTLET}/${SERIES}/current`
 
 const theme: ThemePatch = {
-  // Piece palette (slots 1-10 = author order a-j)
-  'piece-1-color': 'var(--demo-accent-1)',
-  'piece-2-color': 'var(--demo-accent-1)',
-  'piece-3-color': 'var(--demo-accent-2)',
-  'piece-4-color': 'var(--demo-accent-2)',
-  'piece-5-color': 'var(--demo-accent-3)',
-  'piece-6-color': 'var(--demo-accent-3)',
-  'piece-7-color': 'var(--demo-accent-3)',
-  'piece-8-color': 'var(--demo-accent-2)',
-  'piece-9-color': 'var(--demo-accent-2)',
-  'piece-10-color': 'var(--demo-accent-2)',
+  // The duotone design, one look for both modes, stated in its own hexes.
+  // Every piece is two tones of one colour: a bright face inside a frame of
+  // that colour at 30% white. Cells within a piece, within a blocker and
+  // across the board are separated by faint hairlines.
+
+  // Piece palette (slots 1-10 = author order a-j). Six colours over ten
+  // slots, the slots that share one never meet in the same puzzle.
+  'piece-1-color': '#f9c900',
+  'piece-2-color': '#2b4ea1',
+  'piece-3-color': '#6abd45',
+  'piece-4-color': '#e795bf',
+  'piece-5-color': '#8d8dff',
+  'piece-6-color': '#2b4ea1',
+  'piece-7-color': '#6abd45',
+  'piece-8-color': '#e795bf',
+  'piece-9-color': '#007251',
+  'piece-10-color': '#007251',
 
   // Pieces
-  'piece-outline': 'cell',
   'piece-border': 'cell',
-  'piece-border-strength': '0',
-  'piece-highlight': '0.3',
+  'piece-border-color': '#ffffff',
+  'piece-border-strength': '0.3',
+  'piece-highlight': '0',
+  'piece-outline': 'cell',
+  'piece-outline-color': 'rgb(0 0 0 / 0.16)',
   'piece-sheen': '0',
   'piece-shadow': '0',
-  'preview-valid': 'color-mix(in srgb, var(--demo-accent-1), transparent 70%)',
-  'preview-invalid': 'rgba(204, 0, 0, 0.3)',
 
-  // Board and shared geometry
-  'board-cell-color': 'var(--demo-board)',
+  // Board and shared geometry, measured from the design file: cell 67.44,
+  // face inset 7.0, every corner at radius 4.0
+  'board-cell-color': '#3e5059',
   'board-cell-border': 'cell',
-  'board-cell-border-color': '#000000',
-  'board-cell-border-strength': '0.125',
+  'board-cell-border-color': '#333333',
+  'board-cell-border-strength': '1',
   'board-outline': 'cell',
-  'board-outline-color': 'var(--demo-board-outline)',
+  'board-outline-color': 'rgb(255 255 255 / 0.05)',
   gap: '0',
-  'corner-radius': '0.12',
-  'outline-width': '1.5',
-  'border-width': '0.3',
-  'face-shadow-style': 'edge',
-  'face-shadow': '0.3',
-  'face-shadow-softness': '0.1',
+  'corner-radius': '0.0593',
+  'border-width': '0.2076',
+  'outline-width': '0.5',
+  'face-shadow': '0',
 
-  // Blockers: the mode token is the face, the frame is a paler tint of it
-  'blocker-color': 'var(--demo-blocker)',
-  'blocker-border-color': '#ffffff',
-  'blocker-border-strength': '0.4',
-  'blocker-outline-color': 'var(--demo-board-outline)',
+  // Blockers
+  'blocker-color': '#6f858e',
+  'blocker-border-color': '#c4c8cc',
+  'blocker-border-strength': '1',
+  'blocker-outline-color': 'rgb(0 0 0 / 0.16)',
   'blocker-logo-mode': 'one',
 
   // Tutorial overlay
