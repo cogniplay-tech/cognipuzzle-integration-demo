@@ -17,13 +17,7 @@ const BASE_URL: string | undefined = import.meta.env
 const CONTENT_API = `${BASE_URL}/embed/${OUTLET}/${SERIES}/current`
 
 const theme: ThemePatch = {
-  // The duotone design, one look for both modes, stated in its own hexes.
-  // Every piece is two tones of one colour: a bright face inside a frame of
-  // that colour at 30% white. Cells within a piece, within a blocker and
-  // across the board are separated by faint hairlines.
-
-  // Piece palette (slots 1-10 = author order a-j). Six colours over ten
-  // slots, the slots that share one never meet in the same puzzle.
+  // Piece palette (slots 1-10 = author order a-j)
   'piece-1-color': '#f9c900',
   'piece-2-color': '#2b4ea1',
   'piece-3-color': '#6abd45',
@@ -45,11 +39,11 @@ const theme: ThemePatch = {
   'piece-sheen': '0',
   'piece-shadow': '0',
 
-  // Board and shared geometry, measured from the design file: cell 67.44,
-  // face inset 7.0, every corner at radius 4.0
+  // Board and shared geometry
   'board-cell-color': '#3e5059',
   'board-cell-border': 'cell',
   'board-cell-border-color': '#333333',
+  // 'board-cell-border-color': 'transparent',
   'board-cell-border-strength': '1',
   'board-outline': 'cell',
   'board-outline-color': 'rgb(255 255 255 / 0.05)',
