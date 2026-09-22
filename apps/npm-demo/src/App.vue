@@ -31,7 +31,9 @@ const theme: ThemePatch = {
 
   // Pieces
   'piece-outline': 'cell',
-  'piece-rim': 'cell',
+  'piece-border': 'cell',
+  'piece-border-strength': '0',
+  'piece-highlight': '0.3',
   'piece-sheen': '0',
   'piece-shadow': '0',
   'preview-valid': 'color-mix(in srgb, var(--demo-accent-1), transparent 70%)',
@@ -39,18 +41,23 @@ const theme: ThemePatch = {
 
   // Board and shared geometry
   'board-cell-color': 'var(--demo-board)',
+  'board-cell-border': 'cell',
+  'board-cell-border-color': '#000000',
+  'board-cell-border-strength': '0.125',
   'board-outline': 'cell',
   'board-outline-color': 'var(--demo-board-outline)',
   gap: '0',
   'corner-radius': '0.12',
   'outline-width': '1.5',
-  'rim-width': '0.3',
-  'rim-shadow-style': 'edge',
-  'rim-shadow': '0.3',
-  'rim-shadow-softness': '0.1',
+  'border-width': '0.3',
+  'face-shadow-style': 'edge',
+  'face-shadow': '0.3',
+  'face-shadow-softness': '0.1',
 
-  // Blockers
+  // Blockers: the mode token is the face, the frame is a paler tint of it
   'blocker-color': 'var(--demo-blocker)',
+  'blocker-border-color': '#ffffff',
+  'blocker-border-strength': '0.4',
   'blocker-outline-color': 'var(--demo-board-outline)',
   'blocker-logo-mode': 'one',
 
