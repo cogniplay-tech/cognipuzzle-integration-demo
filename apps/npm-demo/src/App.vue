@@ -42,11 +42,10 @@ const theme: ThemePatch = {
   // Board and shared geometry
   'board-cell-color': '#3e5059',
   'board-cell-border': 'cell',
-  'board-cell-border-color': '#333333',
-  // 'board-cell-border-color': 'transparent',
+  'board-cell-border-color': 'transparent',
   'board-cell-border-strength': '1',
   'board-outline': 'cell',
-  'board-outline-color': 'rgb(255 255 255 / 0.05)',
+  'board-outline-color': 'color-mix(in srgb, var(--demo-fg), transparent 78%)',
   gap: '0',
   'corner-radius': '0.0593',
   'border-width': '0.2076',
