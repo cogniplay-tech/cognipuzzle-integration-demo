@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, useTemplateRef } from 'vue'
 import {
-  wirePuzzleToDomain,
   PUZZLE_EVENT_NAMES,
-  type Puzzle,
-  type WirePuzzle,
   type CogniplayPuzzleElement,
   type ThemePatch,
 } from '@cogniplay/puzzle'
@@ -78,7 +75,7 @@ const theme: ThemePatch = {
 }
 
 const puzzleEl = useTemplateRef<CogniplayPuzzleElement>('puzzleEl')
-const puzzle = ref<Puzzle | null>(null)
+const content = ref<unknown>(null)
 const events = ref<string[]>([])
 const loading = ref(false)
 const fetchError = ref<string | null>(null)
@@ -110,8 +107,7 @@ async function loadToday() {
       )
     const res = await fetch(CONTENT_API)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const body = (await res.json()) as { puzzle: WirePuzzle }
-    puzzle.value = wirePuzzleToDomain(body.puzzle)
+    content.value = await res.json()
   } catch (err) {
     fetchError.value = err instanceof Error ? err.message : String(err)
   } finally {
@@ -126,7 +122,7 @@ async function loadToday() {
     <PuzzleStage>
       <cogniplay-puzzle
         ref="puzzleEl"
-        :puzzle="puzzle"
+        :content="content"
         :theme="theme"
         show-timer
       >
