@@ -55,7 +55,7 @@ Shared by the two element demos:
 `ready`, `started`, `piece-picked-up`, `piece-placed`, `piece-returned`,
 `piece-rotated`, `solved`, `error`, `tutorial-complete`, `tutorial-exit`. All
 `CustomEvent`s that bubble and cross the shadow boundary, typed through
-`CogniplayPuzzleEventMap`. Attach listeners before assigning `.puzzle`, or the
+`CogniplayPuzzleEventMap`. Attach listeners before assigning `.content`, or the
 load's `ready` is missed.
 
 Every piece event carries `placed`, `total`, `state`, and:

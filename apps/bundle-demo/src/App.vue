@@ -2,13 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { PuzzleStage, EventLog, ModeToggle } from 'demo-shared'
 
-// Registered by the CDN bundle loaded in index.html.
-declare global {
-  const CogniplayPuzzle: {
-    wirePuzzleToDomain: (wire: unknown) => object
-  }
-}
-
 const OUTLET: string | undefined = import.meta.env.VITE_COGNIPLAY_OUTLET
 const SERIES: string | undefined = import.meta.env.VITE_COGNIPLAY_SERIES
 const BASE_URL: string | undefined = import.meta.env
@@ -90,7 +83,7 @@ const PUZZLE_EVENTS = [
 ] as const
 
 const puzzleEl = ref<PuzzleElement | null>(null)
-const puzzle = ref<object | null>(null)
+const content = ref<unknown>(null)
 const events = ref<string[]>([])
 const loading = ref(false)
 const fetchError = ref<string | null>(null)
@@ -101,7 +94,7 @@ function log(type: string, e: Event) {
   events.value.push(`${type} ${JSON.stringify(rest)}`)
 }
 
-// Attach listeners before assigning `.puzzle`, so the load's `ready` is caught.
+// Attach listeners before assigning `.content`, so the load's `ready` is caught.
 onMounted(() => {
   const el = puzzleEl.value!
   for (const type of PUZZLE_EVENTS) {
@@ -124,8 +117,7 @@ async function loadToday() {
       )
     const res = await fetch(CONTENT_API)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const body = (await res.json()) as { puzzle: unknown }
-    puzzle.value = CogniplayPuzzle.wirePuzzleToDomain(body.puzzle)
+    content.value = await res.json()
   } catch (err) {
     fetchError.value = err instanceof Error ? err.message : String(err)
   } finally {
@@ -140,7 +132,7 @@ async function loadToday() {
     <PuzzleStage>
       <cogniplay-puzzle
         ref="puzzleEl"
-        :puzzle="puzzle"
+        :content="content"
         :theme="theme"
         show-timer
       >
