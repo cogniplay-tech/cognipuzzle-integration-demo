@@ -16,6 +16,14 @@ const { expanded, expand, collapse } = useTakeover(
   closeButton,
   DESKTOP_QUERY,
 )
+
+// The tap that expands the stage is also the reader asking to play, so a host
+// can begin the play in the same tap.
+const emit = defineEmits<{ play: [] }>()
+function tap() {
+  void expand()
+  emit('play')
+}
 </script>
 
 <template>
@@ -42,7 +50,7 @@ const { expanded, expand, collapse } = useTakeover(
         ref="tapLayer"
         class="tap-layer"
         type="button"
-        @click="expand"
+        @click="tap"
       >
         <span>Tap to play</span>
       </button>

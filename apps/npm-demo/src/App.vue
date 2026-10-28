@@ -3,6 +3,7 @@ import { ref, onMounted, useTemplateRef } from 'vue'
 import {
   PUZZLE_EVENT_NAMES,
   type CogniplayPuzzleElement,
+  type EmittedState,
   type ThemePatch,
 } from '@cogniplay/puzzle'
 import { PuzzleStage, EventLog, ModeToggle } from 'demo-shared'
@@ -85,14 +86,77 @@ function log(type: string, detail: unknown) {
   events.value.push(`${type} ${JSON.stringify(rest)}`)
 }
 
+// A solve, kept in the browser so a later visit shows its final board.
+interface SolvedPlay {
+  state: EmittedState
+  elapsedMs: number
+}
+const SOLVED_KEY = 'cogniplay-demo-solved'
+
+// A solve saved for another puzzle, such as yesterday's, doesn't count.
+function loadSolved(puzzleId: string | undefined): SolvedPlay | null {
+  try {
+    const play = JSON.parse(
+      localStorage.getItem(SOLVED_KEY) ?? 'null',
+    ) as SolvedPlay | null
+    return play?.state.puzzleId === puzzleId ? play : null
+  } catch {
+    return null
+  }
+}
+
+function saveSolved(play: SolvedPlay) {
+  try {
+    localStorage.setItem(SOLVED_KEY, JSON.stringify(play))
+  } catch {
+    // No storage (a private window, say): the solve is not kept.
+  }
+}
+
+// Every load waits behind the Start button for a fresh play, unless this
+// puzzle was solved here before.
+const phase = ref<'loading' | 'waiting' | 'live' | 'solved' | 'failed'>(
+  'loading',
+)
+// A tap to play that lands before the puzzle is ready begins it once it is.
+let beginWhenReady = false
+
+function begin() {
+  if (phase.value === 'loading') {
+    beginWhenReady = true
+    return
+  }
+  if (phase.value === 'waiting') puzzleEl.value!.start()
+}
+
 onMounted(() => {
   const el = puzzleEl.value!
   for (const type of PUZZLE_EVENT_NAMES) {
     el.addEventListener(type, (e) => log(type, e.detail))
   }
-  // A loaded puzzle waits to be started. Nothing on this page comes before
-  // the play, so it starts as soon as it is ready.
-  el.addEventListener('ready', () => el.start())
+  el.addEventListener('ready', (e) => {
+    const tapped = beginWhenReady
+    beginWhenReady = false
+    const solved = loadSolved(e.detail.state.puzzleId)
+    if (solved) {
+      // The final board, with the clock frozen at the solving time.
+      el.resume(solved.state, { elapsedMs: solved.elapsedMs })
+      return
+    }
+    phase.value = 'waiting'
+    if (tapped) begin()
+  })
+  el.addEventListener('started', () => (phase.value = 'live'))
+  el.addEventListener(
+    'resumed',
+    (e) => (phase.value = e.detail.solved ? 'solved' : 'live'),
+  )
+  el.addEventListener('solved', (e) => {
+    phase.value = 'solved'
+    saveSolved({ state: e.detail.state, elapsedMs: e.detail.elapsedMs })
+  })
+  // Content the element cannot read never reaches ready.
+  el.addEventListener('error', () => (phase.value = 'failed'))
   void loadToday()
 })
 
@@ -122,7 +186,7 @@ async function loadToday() {
 <template>
   <main>
     <h1>CogniPuzzle - npm package</h1>
-    <PuzzleStage>
+    <PuzzleStage @play="begin">
       <cogniplay-puzzle
         ref="puzzleEl"
         :content="content"
@@ -133,12 +197,28 @@ async function loadToday() {
           The puzzle could not be loaded. Please try again later.
         </div>
       </cogniplay-puzzle>
+      <div
+        v-if="phase === 'waiting' || (phase === 'loading' && !fetchError)"
+        class="start-overlay"
+        :class="phase"
+      >
+        <button
+          class="button"
+          type="button"
+          :disabled="phase === 'loading'"
+          @click="begin"
+        >
+          {{ phase === 'loading' ? 'Loading…' : 'Start' }}
+        </button>
+      </div>
     </PuzzleStage>
     <p class="actions">
       <button class="button" :disabled="loading" @click="loadToday">
         Reload today's puzzle
       </button>
-      <button class="button" @click="reset">Reset</button>
+      <button class="button" :disabled="phase !== 'live'" @click="reset">
+        Reset
+      </button>
       <ModeToggle />
     </p>
     <p v-if="loading" class="loading">Loading today's puzzle…</p>
@@ -148,3 +228,31 @@ async function loadToday() {
     <EventLog :entries="events" />
   </main>
 </template>
+
+<style scoped>
+/* Over the board until the play begins. Below the stage's desktop breakpoint
+   the tap layer begins the play, so only Loading shows there. */
+.start-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--demo-bg), transparent 40%);
+}
+/* No board to dim yet, and the phone takeover's Close stays tappable. */
+.start-overlay.loading {
+  background: none;
+  pointer-events: none;
+}
+.start-overlay .button {
+  height: 2.75rem;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+}
+@media (max-width: 767px) {
+  .start-overlay.waiting {
+    display: none;
+  }
+}
+</style>

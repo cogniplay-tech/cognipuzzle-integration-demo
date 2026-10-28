@@ -45,8 +45,9 @@ Shared by the two element demos:
 - The host page builds and owns the instructions UI. The widget's own lessons
   run on a separate `<cogniplay-tutorial>` element, which these demos don't
   use.
-- A loaded puzzle waits until the page starts it, so both demos call
-  `start()` on `ready`.
+- A loaded puzzle waits until the page starts it. The bundle demo calls
+  `start()` on `ready`. The npm demo waits behind a Start button, and shows a
+  puzzle solved here before as its final board (see its README).
 - `packages/demo-shared` is shared scaffolding, not part of the integration.
 - Light/dark mode: `ModeToggle.vue` toggles a `dark` class on the root
   element, the `--demo-*` tokens in `styles.css` switch with it, and each app's
