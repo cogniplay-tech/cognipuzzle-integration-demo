@@ -14,8 +14,6 @@ interface CogniplayEnvelope {
     | 'piece-rotated'
     | 'solved'
     | 'error'
-    | 'tutorial-complete'
-    | 'tutorial-exit'
     | 'load-error'
   payload: Record<string, unknown>
 }

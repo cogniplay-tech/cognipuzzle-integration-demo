@@ -69,11 +69,13 @@ const theme = {
   'timer-solved': 'var(--demo-accent-1)',
 }
 
-type PuzzleElement = HTMLElement & { reset: () => void }
+type PuzzleElement = HTMLElement & { start: () => void; reset: () => void }
 
 const PUZZLE_EVENTS = [
   'ready',
   'started',
+  'resumed',
+  'reset',
   'piece-picked-up',
   'piece-placed',
   'piece-returned',
@@ -100,6 +102,9 @@ onMounted(() => {
   for (const type of PUZZLE_EVENTS) {
     el.addEventListener(type, (e) => log(type, e))
   }
+  // A loaded puzzle waits to be started. Nothing on this page comes before
+  // the play, so it starts as soon as it is ready.
+  el.addEventListener('ready', () => el.start())
   void loadToday()
 })
 

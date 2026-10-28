@@ -90,6 +90,9 @@ onMounted(() => {
   for (const type of PUZZLE_EVENT_NAMES) {
     el.addEventListener(type, (e) => log(type, e.detail))
   }
+  // A loaded puzzle waits to be started. Nothing on this page comes before
+  // the play, so it starts as soon as it is ready.
+  el.addEventListener('ready', () => el.start())
   void loadToday()
 })
 

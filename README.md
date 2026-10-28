@@ -35,16 +35,18 @@ test other puzzle assets and content.
 | TypeScript types | —                       | —                            | full (`Puzzle`, `WirePuzzle`) |
 | Events           | `postMessage` envelopes | DOM `CustomEvent`s           | DOM `CustomEvent`s            |
 | Instructions UI  | included                | `demo-shared`                | `demo-shared`                 |
-| Updates          | automatic               | pinned, or `v1` alias        | like any npm dependency       |
+| Updates          | automatic               | pinned, or `v2` alias        | like any npm dependency       |
 
 Shared by the two element demos:
 
 - The puzzle is fed as a DOM **property** (`:puzzle="…"`), never a JSON
   attribute. The `isCustomElement` hint in `vite.config.ts` stops Vue from
   resolving `<cogniplay-puzzle>` as a component.
-- The element renders no instructions (its `tutorial` property needs
-  host-supplied strings), so the host page builds and owns the instructions
-  UI.
+- The host page builds and owns the instructions UI. The widget's own lessons
+  run on a separate `<cogniplay-tutorial>` element, which these demos don't
+  use.
+- A loaded puzzle waits until the page starts it, so both demos call
+  `start()` on `ready`.
 - `packages/demo-shared` is shared scaffolding, not part of the integration.
 - Light/dark mode: `ModeToggle.vue` toggles a `dark` class on the root
   element, the `--demo-*` tokens in `styles.css` switch with it, and each app's
@@ -52,13 +54,17 @@ Shared by the two element demos:
 
 ## Events
 
-`ready`, `started`, `piece-picked-up`, `piece-placed`, `piece-returned`,
-`piece-rotated`, `solved`, `error`, `tutorial-complete`, `tutorial-exit`. All
-`CustomEvent`s that bubble and cross the shadow boundary, typed through
-`CogniplayPuzzleEventMap`. Attach listeners before assigning `.content`, or the
-load's `ready` is missed.
+`ready`, `started`, `resumed`, `reset`, `piece-picked-up`, `piece-placed`,
+`piece-returned`, `piece-rotated`, `solved`, `error`. All `CustomEvent`s that
+bubble and cross the shadow boundary, typed through `CogniplayPuzzleEventMap`.
+Attach listeners before assigning `.content`, or the load's `ready` is missed.
 
-Every piece event carries `placed`, `total`, `state`, and:
+`ready` fires when a puzzle has loaded, and the board then waits. `start()`
+begins a fresh play and fires `started`. `resume(saved, { elapsedMs })`
+continues a saved one and fires `resumed`. `reset()` clears the board within
+the play and fires `reset`.
+
+Every piece event carries `placed`, `total`, `state`, `elapsedMs`, and:
 
 | Field     | On               | Value                                                                          |
 | --------- | ---------------- | ------------------------------------------------------------------------------ |
@@ -70,8 +76,8 @@ Every piece event carries `placed`, `total`, `state`, and:
 `release` values, ranked by how much of the release was over the board:
 `"on-board"` (pointer within a board cell), `"near-board"` (pointer off it,
 piece outline still overlapping), `"off-board"`, `"cancelled"` (Escape, lost
-pointer, drag recovery). `elapsedMs` is on `solved` only, which also fires
-with no piece event in front of it.
+pointer, drag recovery). `elapsedMs` is the play's clock in milliseconds, and
+`started`, `resumed`, `reset` and `solved` carry it too.
 
 Authoritative: the package README and
 [the events reference](https://docs.cognipuzzle.com/reference/events/).
